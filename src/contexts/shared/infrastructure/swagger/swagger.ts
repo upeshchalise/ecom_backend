@@ -9,9 +9,19 @@ const doc = {
     title: 'Campus  plus Demo Project',
     description: 'Implementation of Swagger with TypeScript'
   },
+  host: process.env.BASE_URL || 'localhost:4000',
   schemes: ['http', 'https'],
-  host: ['http://localhost:4000'],
-  
+  servers: [
+    {
+      url: 'http://localhost:4000/api',
+      description: 'Local HTTP'
+    },
+    {
+      url: 'https://localhost:4000/api',
+      description: 'Local HTTPS'
+    }
+  ],
+
   components: {
     securitySchemes: {
       bearerAuth: {

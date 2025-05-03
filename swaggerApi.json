@@ -5,6 +5,16 @@
     "title": "Campus  plus Demo Project",
     "description": "Implementation of Swagger with TypeScript"
   },
+  "servers": [
+    {
+      "url": "http://localhost:4000/api",
+      "description": "Local HTTP"
+    },
+    {
+      "url": "https://localhost:4000/api",
+      "description": "Local HTTPS"
+    }
+  ],
   "paths": {
     "/health_check": {
       "get": {
