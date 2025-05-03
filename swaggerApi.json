@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "v1.0.0",
+    "title": "Campus  plus Demo Project",
+    "description": "Implementation of Swagger with TypeScript"
+  },
+  "paths": {
+    "/health_check": {
+      "get": {
+        "tags": [
+          "Health Check"
+        ],
+        "description": "Health Check API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {}
+  }
+}

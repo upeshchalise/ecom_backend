@@ -5,12 +5,18 @@
   "scripts": {
     "start": "tsc && node build/index.js",
     "start:dev": "nodemon --exec ts-node src/apps/ecom/backend/start.ts",
+    "build": "npm run build:clean && npm run build:tsc",
+    "build:tsc": "tsc -p tsconfig.json",
+    "build:clean": "rm -r dist; exit 0",
+    "tsc": "tsc",
     "prisma:studio": "prisma studio",
     "migration:dev": "prisma migrate dev",
     "migration:create": "prisma migrate dev --create-only",
     "migration:status": "prisma migrate status",
     "migration:deploy": "prisma migrate deploy",
-    "generate:prisma": "prisma generate"
+    "generate:prisma": "prisma generate",
+    "swagger": "ts-node src/contexts/shared/infrastructure/swagger/swagger.ts"
+
   },
   "repository": {
     "type": "git",
