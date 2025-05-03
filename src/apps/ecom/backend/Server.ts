@@ -10,12 +10,9 @@ export class Server {
   constructor(
     private router: express.Router,
     private logger: ServerLogger,
-    // private requestLogger: RequestLogger,
   ) {
     this.express = express();
     this.express.use(this.logger.stream());
-    // this.express.use(this.requestLogger.logs);
-
     this.express.use(this.router);
   }
 

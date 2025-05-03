@@ -10,7 +10,8 @@ const doc = {
     description: 'Implementation of Swagger with TypeScript'
   },
   schemes: ['http', 'https'],
-  host: [`${process.env.BASE_URL}`],
+  host: ['http://localhost:4000'],
+  
   components: {
     securitySchemes: {
       bearerAuth: {
