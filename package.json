@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node build/index.js",
-    "start:dev": "nodemon --exec ts-node src/index.ts",
+    "start:dev": "nodemon --exec ts-node src/apps/ecom/backend/start.ts",
     "prisma:studio": "prisma studio",
     "migration:dev": "prisma migrate dev",
     "migration:create": "prisma migrate dev --create-only",
@@ -28,6 +28,7 @@
     "@prisma/client": "^6.7.0",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.2",
+    "app-root-path": "^3.1.0",
     "awilix": "^12.0.5",
     "body-parser": "^2.2.0",
     "compression": "^1.8.0",
@@ -35,11 +36,13 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
+    "http-status": "^2.1.0",
     "morgan": "^1.10.0",
     "nodemailer": "^6.10.1",
     "prisma": "^6.7.0",
     "swagger-ui-express": "^5.0.1",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/compression": "^1.7.5",

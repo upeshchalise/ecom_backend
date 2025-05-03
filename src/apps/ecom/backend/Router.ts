@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 
-export const Router = (masterRouter:ExpressRouter, errorMiddleware: any): ExpressRouter => {
+export const Router = (masterRouter:ExpressRouter): ExpressRouter => {
     const router = ExpressRouter();
     router.use(cors());
   router.use(helmet()); 
@@ -22,8 +22,8 @@ export const Router = (masterRouter:ExpressRouter, errorMiddleware: any): Expres
 
     // router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-  router.use(errorMiddleware.routeNotFoundErrorHandler);
-  router.use(errorMiddleware.clientErrorHandler);
-  router.use(errorMiddleware.InternalServerError);
+  // router.use(errorMiddleware.routeNotFoundErrorHandler);
+  // router.use(errorMiddleware.clientErrorHandler);
+  // router.use(errorMiddleware.InternalServerError);
     return router;
 }
