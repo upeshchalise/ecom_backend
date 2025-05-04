@@ -6,6 +6,8 @@ import { createPrismaClient } from '../../../contexts/shared/infrastructure/pers
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winstonLogger';
 import * as ApiControllers from './controllers';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
+import { PrismaUserRepository } from '../../../contexts/ecom/users/infrastructure/prisma-user.repository';
+import { CreateUserService } from '../../../contexts/ecom/users/application/create-user.services';
 
 
 export class Container {
@@ -33,6 +35,11 @@ export class Container {
         })
         .register({
           healthCheckController: asClass(ApiControllers.HealthCheckController).singleton(),
+        })
+        // user
+        .register({
+          createUserService: asClass(CreateUserService).singleton(),
+          userRepository: asClass(PrismaUserRepository).singleton(),
         })
       }
 

@@ -6,8 +6,8 @@ dotenv.config();
 const doc = {
   info: {
     version: 'v1.0.0',
-    title: 'Campus  plus Demo Project',
-    description: 'Implementation of Swagger with TypeScript'
+    title: 'E-commerce API',
+    description: 'E-commerce API documentation',
   },
   host: process.env.BASE_URL || 'localhost:4000',
   schemes: ['http', 'https'],

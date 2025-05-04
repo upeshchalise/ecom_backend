@@ -30,6 +30,7 @@ model User {
   phone String?
   address String?
   role UserRole @default(BUYER)
+  roles UserRole[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime? 
