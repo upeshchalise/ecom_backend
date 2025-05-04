@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "version": "v1.0.0",
-    "title": "Campus  plus Demo Project",
-    "description": "Implementation of Swagger with TypeScript"
+    "title": "E-commerce API",
+    "description": "E-commerce API documentation"
   },
   "servers": [
     {
@@ -22,6 +22,19 @@
           "Health Check"
         ],
         "description": "Health Check API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Create User API",
         "responses": {
           "default": {
             "description": ""
