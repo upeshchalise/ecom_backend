@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import path from 'path';
 import swaggerAutogen from 'swagger-autogen';
+import { Schemas } from './schema';
 dotenv.config();
 
 const doc = {
@@ -29,7 +30,9 @@ const doc = {
         scheme: 'bearer'
       }
     },
-    schemas: {},
+    schemas: {
+      createUser: Schemas.CreateUserSchema
+    },
   }
 };
 

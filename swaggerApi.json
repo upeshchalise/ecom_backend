@@ -39,6 +39,20 @@
           "default": {
             "description": ""
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createUser"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/createUser"
+              }
+            }
+          }
         }
       }
     }
@@ -50,6 +64,52 @@
         "scheme": "bearer"
       }
     },
-    "schemas": {}
+    "schemas": {
+      "createUser": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "example": "john"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "o1oYb@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main St"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://example.com/image.png"
+          },
+          "phone": {
+            "type": "string",
+            "example": "1234567890"
+          }
+        },
+        "required": [
+          "first_name",
+          "last_name",
+          "email",
+          "password",
+          "address",
+          "image",
+          "phone"
+        ],
+        "xml": {
+          "name": "createUser"
+        }
+      }
+    }
   }
 }

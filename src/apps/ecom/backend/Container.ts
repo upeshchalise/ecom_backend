@@ -8,6 +8,7 @@ import * as ApiControllers from './controllers';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
 import { PrismaUserRepository } from '../../../contexts/ecom/users/infrastructure/prisma-user.repository';
 import { CreateUserService } from '../../../contexts/ecom/users/application/create-user.services';
+import { GetUserByEmailService } from '../../../contexts/ecom/users/application/get-user-by-email.services';
 
 
 export class Container {
@@ -39,6 +40,8 @@ export class Container {
         // user
         .register({
           createUserService: asClass(CreateUserService).singleton(),
+          createUserController: asClass(ApiControllers.CreateUserController).singleton(),
+          getUserByEmailService: asClass(GetUserByEmailService).singleton(),
           userRepository: asClass(PrismaUserRepository).singleton(),
         })
       }

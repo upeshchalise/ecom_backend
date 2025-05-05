@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole } from "@prisma/client";
+import { PrismaClient, User, UserRole } from "@prisma/client";
 import { IUserRepository } from "../domain/repository/user.repository";
 
 export class PrismaUserRepository implements IUserRepository {
@@ -16,6 +16,23 @@ export class PrismaUserRepository implements IUserRepository {
                 image,
                 phone,
                 roles: Array.from(new Set([role])),
+            }
+        })
+    }
+
+    async getUserByEmail(email: string): Promise<Partial<User> | null> {
+        return await this.db.user.findFirst({
+            where: {
+                email
+            },
+            select : {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                address: true,
+                image: true,
+                phone: true
             }
         })
     }

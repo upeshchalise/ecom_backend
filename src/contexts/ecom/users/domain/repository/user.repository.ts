@@ -1,4 +1,4 @@
-import { UserRole } from "@prisma/client";
+import { User, UserRole } from "@prisma/client";
 
 export interface IUserRepository {
     createUser(
@@ -12,4 +12,6 @@ export interface IUserRepository {
         image?: string,
         phone?: string,
     ): Promise<void>;
+
+    getUserByEmail(email: string): Promise<Partial<User> | null>;
 }
