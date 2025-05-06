@@ -16,6 +16,35 @@
     }
   ],
   "paths": {
+    "/upload": {
+      "post": {
+        "tags": [
+          "Upload Image"
+        ],
+        "description": "Upload Image API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/health_check": {
       "get": {
         "tags": [

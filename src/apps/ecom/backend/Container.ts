@@ -36,6 +36,7 @@ export class Container {
         })
         .register({
           healthCheckController: asClass(ApiControllers.HealthCheckController).singleton(),
+          uploadImageController: asClass(ApiControllers.UploadImageController).singleton(),
         })
         // user
         .register({
