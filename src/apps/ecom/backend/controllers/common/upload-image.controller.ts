@@ -9,7 +9,7 @@ export class UploadImageController implements Controller {
     public async invoke(req: Request, res: Response): Promise<void> {
         try {
             const file = req.file
-            console.log("file", file);
+
             
             if (!file) {
                 res.status(400).json({ message: "File not found" });
