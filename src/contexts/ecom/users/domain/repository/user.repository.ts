@@ -14,4 +14,5 @@ export interface IUserRepository {
     ): Promise<void>;
 
     getUserByEmail(email: string): Promise<Partial<User> | null>;
+    getUserById(id: string): Promise<Partial<User> | null>
 }

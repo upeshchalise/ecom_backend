@@ -65,7 +65,7 @@ export class CreateUserController implements Controller {
                 phone,
 
             })
-            res.status(httpStatus.CREATED).json({ message: "User created successfully" });
+            res.status(httpStatus.CREATED).send();
         } catch (error) {
             res.status(500).json({ message: `Internal server error: ${error}` });
         }

@@ -1,3 +1,4 @@
 export * from "./health-check/health-check.controller"
 export * from "./users/create-user.controller"
 export * from "./common/upload-image.controller"
+export * from "./users/get-user-by-id.controller"

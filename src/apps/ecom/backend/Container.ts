@@ -9,6 +9,7 @@ import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middlew
 import { PrismaUserRepository } from '../../../contexts/ecom/users/infrastructure/prisma-user.repository';
 import { CreateUserService } from '../../../contexts/ecom/users/application/create-user.services';
 import { GetUserByEmailService } from '../../../contexts/ecom/users/application/get-user-by-email.services';
+import { GetUserByIdService } from '../../../contexts/ecom/users/application/get-user-by-id.services';
 
 
 export class Container {
@@ -43,6 +44,8 @@ export class Container {
           createUserService: asClass(CreateUserService).singleton(),
           createUserController: asClass(ApiControllers.CreateUserController).singleton(),
           getUserByEmailService: asClass(GetUserByEmailService).singleton(),
+          getUserByIdService: asClass(GetUserByIdService).singleton(),
+          getUserByIdController: asClass(ApiControllers.GetUserByIdController).singleton(),
           userRepository: asClass(PrismaUserRepository).singleton(),
         })
       }
