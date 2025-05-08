@@ -9,6 +9,7 @@ export const MasterRouter = (
     healthCheckController: controllers.HealthCheckController,
     createUserController: controllers.CreateUserController,
     uploadImageController: controllers.UploadImageController,
+    userLoginController: controllers.UserLoginController,
     getUserByIdController: controllers.GetUserByIdController,
 ) : Router => {
 const apiRouter = Router();
@@ -19,6 +20,7 @@ HealthCheckRouter(
 UsersRouter(
     createUserController,
     getUserByIdController,
+    userLoginController,
     apiRouter
 )
 CommonRouter(

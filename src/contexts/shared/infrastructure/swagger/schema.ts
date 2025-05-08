@@ -8,6 +8,12 @@ const CreateUserSchema = {
     $phone : "1234567890",
 }
 
+const LoginUserSchema = {
+    $email : "o1oYb@example.com",
+    $password : "password",
+}
+
 export const Schemas = {
-    CreateUserSchema
+    CreateUserSchema,
+    LoginUserSchema
 }

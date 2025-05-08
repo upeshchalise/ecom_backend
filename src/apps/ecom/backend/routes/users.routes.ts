@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as controller from "../controllers";
 
-export const UsersRouter = (createUserController: controller.CreateUserController,getUserByIdController:controller.GetUserByIdController, router: Router): Router => {
+export const UsersRouter = (createUserController: controller.CreateUserController,getUserByIdController:controller.GetUserByIdController,userLoginController: controller.UserLoginController, router: Router): Router => {
 
     router.post("/user", createUserController.validate, createUserController.invoke.bind(createUserController)
         /*#swagger.tags = ['User']
@@ -19,5 +19,16 @@ export const UsersRouter = (createUserController: controller.CreateUserControlle
         #swagger.description = 'Get User By Id API',
         */
     );
+
+    router.post("/user/login", userLoginController.validate, userLoginController.invoke.bind(userLoginController)
+     /*#swagger.tags = ['User']
+        #swagger.description = 'User Login API',
+        #swagger.requestBody ={
+            schema : {
+                $ref: "#/components/schemas/loginUser"
+            }
+        }
+        */
+)
     return router
 }

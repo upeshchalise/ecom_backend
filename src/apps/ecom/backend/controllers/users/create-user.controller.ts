@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Controller } from "../controller";
 import { CreateUserService } from "../../../../../contexts/ecom/users/application/create-user.services";
-import { PrismaClient, UserRole } from "@prisma/client";
+import {  UserRole } from "@prisma/client";
 import { HTTP400Error } from "../../../../../contexts/shared/domain/errors/http.exception";
 import { hashPassword } from "../../../../../contexts/shared/infrastructure/encryptor/password";
 import httpStatus from "http-status";

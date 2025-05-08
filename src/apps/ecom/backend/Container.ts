@@ -46,6 +46,7 @@ export class Container {
           getUserByEmailService: asClass(GetUserByEmailService).singleton(),
           getUserByIdService: asClass(GetUserByIdService).singleton(),
           getUserByIdController: asClass(ApiControllers.GetUserByIdController).singleton(),
+          userLoginController: asClass(ApiControllers.UserLoginController).singleton(),
           userRepository: asClass(PrismaUserRepository).singleton(),
         })
       }
