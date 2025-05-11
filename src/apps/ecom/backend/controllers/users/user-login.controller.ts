@@ -43,7 +43,7 @@ export class UserLoginController implements Controller {
             let payload: Payload = {
                 user_id: isUser.id!,
                 role: isUser.role!,
-                scope: [isUser.role === 'ADMIN' ? TokenScope.ADMIN_ACCESS : isUser.role === 'SELLER' ? TokenScope.SELLER_ACCESS : TokenScope.BUYER_ACCESS],
+                scope: [isUser.role === 'ADMIN' ? TokenScope.ADMIN_ACCESS :  TokenScope.USER_ACCESS],
             }
 
             const jwtToken = JWTSign(payload, process.env.JWT_SECRET_KEY!, { expiresIn: 3600 }, { expiresIn: 10800 })
@@ -58,7 +58,6 @@ export class UserLoginController implements Controller {
                     role: isUser.role,
                     image: isUser.image,
                     phone: isUser.phone,
-                    roles: isUser.roles
                 }
             })
         } catch (error) {

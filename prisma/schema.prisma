@@ -18,6 +18,7 @@ enum UserRole {
   BUYER
   SELLER
   ADMIN
+  USER
 }
 
 model User {
@@ -29,8 +30,7 @@ model User {
   image String?
   phone String?
   address String?
-  role UserRole @default(BUYER)
-  roles UserRole[]
+  role UserRole @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime? 

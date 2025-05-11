@@ -1,7 +1,6 @@
 export enum TokenScope {
     REFRESH,
-    BUYER_ACCESS = 'buyer:access',
-    SELLER_ACCESS = 'seller:access',
+    USER_ACCESS= 'user:access',
     ADMIN_ACCESS = 'admin:access'
   }
   export interface Payload {

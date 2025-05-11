@@ -37,9 +37,9 @@ export class CreateUserController implements Controller {
         body('first_name').exists().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME).notEmpty().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
         body('last_name').exists().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME).notEmpty().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
         body('role').optional().exists().withMessage(MESSAGE_CODES.USER.INVALID_ROLE).custom(isOneOf(UserRole, MESSAGE_CODES.USER.INVALID_ROLE)).bail(),
-        body('address').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS).notEmpty().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
+        body('address').exists().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS).isString().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS).notEmpty().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
         body('image').optional(),
-        body('phone').optional(),
+        body('phone').exists().withMessage(MESSAGE_CODES.USER.INVALID_CONTACT).isString().withMessage(MESSAGE_CODES.USER.INVALID_CONTACT).notEmpty().withMessage(MESSAGE_CODES.USER.INVALID_CONTACT),
         RequestValidator
     ]
 

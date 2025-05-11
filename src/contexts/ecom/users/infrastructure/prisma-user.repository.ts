@@ -15,7 +15,6 @@ export class PrismaUserRepository implements IUserRepository {
                 role,
                 image,
                 phone,
-                roles: Array.from(new Set([role])),
             }
         })
     }
@@ -34,6 +33,7 @@ export class PrismaUserRepository implements IUserRepository {
                 image: true,
                 phone: true,
                 password: true,
+                role: true,
             }
         })
     }
@@ -50,7 +50,8 @@ export class PrismaUserRepository implements IUserRepository {
                 email: true,
                 address: true,
                 image: true,
-                phone: true
+                phone: true,
+                role: true,
             }
         })
     }
