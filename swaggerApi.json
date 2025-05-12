@@ -16,6 +16,38 @@
     }
   ],
   "paths": {
+    "/admin/category": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Admin Create Category API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createCategory"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/createCategory"
+              }
+            }
+          }
+        }
+      }
+    },
     "/upload": {
       "post": {
         "tags": [
@@ -207,6 +239,21 @@
         ],
         "xml": {
           "name": "loginUser"
+        }
+      },
+      "createCategory": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Electronics"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "xml": {
+          "name": "createCategory"
         }
       }
     }

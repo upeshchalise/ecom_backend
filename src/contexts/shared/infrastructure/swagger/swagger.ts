@@ -33,6 +33,7 @@ const doc = {
     schemas: {
       createUser: Schemas.CreateUserSchema,
       loginUser: Schemas.LoginUserSchema,
+      createCategory: Schemas.CreateCategorySchema
     },
   }
 };

@@ -1,8 +1,10 @@
-import { Router } from "express";
+import { Request, Response,NextFunction, Router } from "express";
 import { HealthCheckRouter } from './health-check.routes'
 import { UsersRouter } from "./users.routes";
 import { CommonRouter } from "./common.routes";
+import { AdminRouter } from "./admin.routes";
 import * as controllers from '../controllers';
+import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAuthorizer";
 
 export const MasterRouter = (
     // healthCheck
@@ -11,6 +13,9 @@ export const MasterRouter = (
     uploadImageController: controllers.UploadImageController,
     userLoginController: controllers.UserLoginController,
     getUserByIdController: controllers.GetUserByIdController,
+    adminCreateCategoryController: controllers.AdminCreateCategoryController,
+    adminAuthorizer: IAuthorizer<Request, Response, NextFunction>
+
 ) : Router => {
 const apiRouter = Router();
 HealthCheckRouter(
@@ -25,6 +30,11 @@ UsersRouter(
 )
 CommonRouter(
     uploadImageController,
+    apiRouter
+)
+AdminRouter(
+    adminCreateCategoryController,
+    adminAuthorizer,
     apiRouter
 )
 return apiRouter;

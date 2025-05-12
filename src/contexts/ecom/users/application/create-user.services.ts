@@ -1,6 +1,5 @@
 import { CreateUserRequest } from "../domain/interface/create-user.interface";
 import { IUserRepository } from "../domain/repository/user.repository";
-import { PrismaUserRepository } from "../infrastructure/prisma-user.repository";
 
 export class CreateUserService {
     constructor(private userRepository: IUserRepository) {}

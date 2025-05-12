@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearchPostgres"]
 }
 
@@ -22,16 +22,37 @@ enum UserRole {
 }
 
 model User {
-  id String @id @default(uuid())
+  id        String    @id @default(uuid())
   firstName String
-  lastName String
-  email String @unique
-  password String
-  image String?
-  phone String?
-  address String?
-  role UserRole @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  deletedAt DateTime? 
+  lastName  String
+  email     String    @unique
+  password  String
+  image     String?
+  phone     String?
+  address   String?
+  role      UserRole  @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  products  Product[]
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  products Product[] @relation("ProductCategories")
+}
+
+model Product {
+  id     String @id @default(uuid())
+  name   String
+  description String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  categories Category[] @relation("ProductCategories")
 }

@@ -13,7 +13,11 @@ const LoginUserSchema = {
     $password : "password",
 }
 
+const CreateCategorySchema = {
+    $name : "Electronics",
+}
 export const Schemas = {
     CreateUserSchema,
-    LoginUserSchema
+    LoginUserSchema,
+    CreateCategorySchema
 }
