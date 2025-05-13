@@ -22,7 +22,6 @@ export class AdminCreateProductController implements Controller {
             const missingCategories = allCategories?.filter(category => !category)
 
             if(missingCategories?.length > 0) {
-                // throw new Error("Some categories do not exist")
                 res.status(httpStatus.BAD_REQUEST).send("Some categories do not exist")
                 return;
             }
