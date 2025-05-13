@@ -48,6 +48,38 @@
         }
       }
     },
+    "/admin/product": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Admin Create Products API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createProduct"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/createProduct"
+              }
+            }
+          }
+        }
+      }
+    },
     "/upload": {
       "post": {
         "tags": [
@@ -254,6 +286,42 @@
         ],
         "xml": {
           "name": "createCategory"
+        }
+      },
+      "createProduct": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Electronics"
+          },
+          "price": {
+            "type": "string",
+            "example": "Electronics"
+          },
+          "description": {
+            "type": "string",
+            "example": "Electronics"
+          },
+          "category_id": {
+            "type": "array",
+            "example": [
+              "CD89F481-5369-4778-9507-CFC7039F76B7",
+              "8615D8B8-2E57-4D23-AE1E-F7A1E94C8D0A"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "price",
+          "description",
+          "category_id"
+        ],
+        "xml": {
+          "name": "createProduct"
         }
       }
     }

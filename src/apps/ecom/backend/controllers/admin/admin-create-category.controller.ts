@@ -22,9 +22,7 @@ export class AdminCreateCategoryController implements Controller {
     ]
     public async invoke(req: any, res: Response, next: NextFunction): Promise<void> {
         try {
-        const user_id = req.user.user_id as string
-        // console.log("req.body", user_id.user_id);
-        
+        const user_id = req.user.user_id as string        
 
         const user = await this.getUserByIdService.invoke(String(user_id))
 

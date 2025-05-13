@@ -14,6 +14,8 @@ import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/auth
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user-authorizer';
 import { PrismaProductRepository } from '../../../contexts/ecom/products/infrastructure/prisma-product.repository';
 import { AdminCreateCategoryService } from '../../../contexts/ecom/products/application/admin-create-category.services';
+import { AdminCreateProductServices } from '../../../contexts/ecom/products/application/admin-create-product.services';
+import { GetCategoryById } from '../../../contexts/ecom/products/application/get-category-by-id.services';
 
 
 export class Container {
@@ -57,6 +59,9 @@ export class Container {
         .register({
           adminCreateCategoryController : asClass(ApiControllers.AdminCreateCategoryController).singleton(),
           adminCreateCategoryService: asClass(AdminCreateCategoryService).singleton(),
+          adminCreateProductController: asClass(ApiControllers.AdminCreateProductController).singleton(),
+          adminCreateProductServices: asClass(AdminCreateProductServices).singleton(),
+          getCategoryById: asClass(GetCategoryById).singleton(),
           productRepository: asClass(PrismaProductRepository)
         })
 

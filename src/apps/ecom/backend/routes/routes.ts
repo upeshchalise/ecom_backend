@@ -14,7 +14,9 @@ export const MasterRouter = (
     userLoginController: controllers.UserLoginController,
     getUserByIdController: controllers.GetUserByIdController,
     adminCreateCategoryController: controllers.AdminCreateCategoryController,
-    adminAuthorizer: IAuthorizer<Request, Response, NextFunction>
+    adminCreateProductController: controllers.AdminCreateProductController,
+    adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+    userAuthorizer: IAuthorizer<Request, Response, NextFunction>
 
 ) : Router => {
 const apiRouter = Router();
@@ -34,7 +36,9 @@ CommonRouter(
 )
 AdminRouter(
     adminCreateCategoryController,
+    adminCreateProductController,
     adminAuthorizer,
+    userAuthorizer,
     apiRouter
 )
 return apiRouter;
