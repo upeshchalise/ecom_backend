@@ -3,6 +3,7 @@ import { HealthCheckRouter } from './health-check.routes'
 import { UsersRouter } from "./users.routes";
 import { CommonRouter } from "./common.routes";
 import { AdminRouter } from "./admin.routes";
+import {ProductRouter} from "./product.routes"
 import * as controllers from '../controllers';
 import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAuthorizer";
 
@@ -15,6 +16,7 @@ export const MasterRouter = (
     getUserByIdController: controllers.GetUserByIdController,
     adminCreateCategoryController: controllers.AdminCreateCategoryController,
     adminCreateProductController: controllers.AdminCreateProductController,
+    getAllProductsController: controllers.GetAllProductsController,
     adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
     userAuthorizer: IAuthorizer<Request, Response, NextFunction>
 
@@ -39,6 +41,10 @@ AdminRouter(
     adminCreateProductController,
     adminAuthorizer,
     userAuthorizer,
+    apiRouter
+)
+ProductRouter(
+    getAllProductsController,
     apiRouter
 )
 return apiRouter;

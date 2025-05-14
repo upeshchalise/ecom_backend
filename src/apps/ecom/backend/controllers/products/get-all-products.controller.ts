@@ -10,8 +10,10 @@ export class GetAllProductsController implements Controller {
         
         try {
           const products =  await this.getAllProductsService.invoke({
-            limit: Number(req.query.limit),
-            page: Number(req.query.page),
+            // limit: Number(req.query.limit),
+            // page: Number(req.query.page),
+            limit: 10,
+            page: 1,
             search: req.query.search as string
           });
             res.status(httpStatus.OK).send(products);

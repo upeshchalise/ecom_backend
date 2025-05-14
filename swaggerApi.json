@@ -122,6 +122,24 @@
         }
       }
     },
+    "/products": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get all products",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/user": {
       "post": {
         "tags": [

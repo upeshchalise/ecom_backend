@@ -6,11 +6,7 @@ export const ProductRouter = (getAllProductsController: controller.GetAllProduct
     router.post("/products", getAllProductsController.invoke.bind(getAllProductsController)
         /*#swagger.tags = ['Products']
         #swagger.description = 'Get all products',
-        #swagger.requestBody ={
-                schema : {
-                    $ref: "#/components/schemas/getAllProducts"
-                }
-            }
+        
                  #swagger.security = [{
               "bearerAuth": []
           }]

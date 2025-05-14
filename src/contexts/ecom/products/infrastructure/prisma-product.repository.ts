@@ -6,8 +6,8 @@ import { ProductPaginateRequest } from "../domain/interface/product-paginate.int
 export class PrismaProductRepository implements IProductRepository {
     constructor(
         private db: PrismaClient
-    ){}
-    
+    ) { }
+
     async createCategory(name: string): Promise<void> {
         await this.db.category.create({
             data: {
@@ -36,32 +36,36 @@ export class PrismaProductRepository implements IProductRepository {
             where: {
                 id
             },
-            select :{
+            select: {
                 id: true,
                 name: true
             }
         })
     }
 
-    async getAllProducts({limit=10, page=1, search=""}:ProductPaginateRequest):Promise<PaginateResponse< Partial<Product[]>>> {
-
-        const whereArgs: Prisma.ProductFindManyArgs['where'] ={
+    async getAllProducts({ limit = 10, page = 1, search = "" }: ProductPaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
+        const whereArgs: Prisma.ProductFindManyArgs['where'] = {
             deletedAt: null,
         }
 
-        if(search) {
+        if (search) {
             whereArgs.name = {
                 contains: search,
                 mode: "insensitive"
             }
         }
-        const [items, total_count]= await this.db.$transaction([
+        const [items, total_count] = await this.db.$transaction([
             this.db.product.findMany({
                 where: whereArgs,
-                take: limit,
-                skip: (page - 1) * limit,
+                skip: (Number(page) - 1) * Number(limit),
+                take: Number(limit),
                 include: {
-                    categories: true
+                    categories: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
                 },
                 orderBy: {
                     createdAt: "desc"
@@ -71,17 +75,18 @@ export class PrismaProductRepository implements IProductRepository {
                 where: whereArgs
             })
         ])
-const total_pages = Math.ceil(total_count / limit);
+        const total_pages = Math.ceil(total_count / Number(limit));
 
-    return {
-      meta: {
-        limit,
-        total_records: total_count,
-        total_pages,
-        current_page: page,
-        is_first_page: page === 0,
-        is_last_page: page === total_pages - 1
-      },
-      data: items
-    };    }
+        return {
+            meta: {
+                limit,
+                total_records: total_count,
+                total_pages,
+                current_page: page,
+                is_first_page: page === 0,
+                is_last_page: page === total_pages - 1
+            },
+            data: items
+        };
+    }
 }
