@@ -16,6 +16,7 @@ import { PrismaProductRepository } from '../../../contexts/ecom/products/infrast
 import { AdminCreateCategoryService } from '../../../contexts/ecom/products/application/admin-create-category.services';
 import { AdminCreateProductServices } from '../../../contexts/ecom/products/application/admin-create-product.services';
 import { GetCategoryById } from '../../../contexts/ecom/products/application/get-category-by-id.services';
+import { GetAllProductsService } from '../../../contexts/ecom/products/application/get-all-products.services';
 
 
 export class Container {
@@ -62,6 +63,8 @@ export class Container {
           adminCreateProductController: asClass(ApiControllers.AdminCreateProductController).singleton(),
           adminCreateProductServices: asClass(AdminCreateProductServices).singleton(),
           getCategoryById: asClass(GetCategoryById).singleton(),
+          getAllProductsService: asClass(GetAllProductsService).singleton(),
+          getAllProductsController: asClass(ApiControllers.GetAllProductsController).singleton(),
           productRepository: asClass(PrismaProductRepository)
         })
 
