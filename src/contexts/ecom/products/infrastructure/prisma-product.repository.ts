@@ -83,7 +83,7 @@ export class PrismaProductRepository implements IProductRepository {
                 total_records: total_count,
                 total_pages,
                 current_page: page,
-                is_first_page: page === 0,
+                is_first_page: page === 1,
                 is_last_page: page === total_pages - 1
             },
             data: items

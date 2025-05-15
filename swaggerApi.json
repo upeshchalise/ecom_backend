@@ -123,7 +123,7 @@
       }
     },
     "/products": {
-      "post": {
+      "get": {
         "tags": [
           "Products"
         ],
