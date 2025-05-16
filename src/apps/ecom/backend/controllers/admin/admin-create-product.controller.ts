@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { Controller } from "../controller";
 import { PrismaClient } from "@prisma/client";
 import  httpStatus from "http-status";
@@ -9,9 +9,9 @@ import { MESSAGE_CODES } from "../../../../../contexts/shared/infrastructure/uti
 import { RequestValidator } from "../../../../../contexts/shared/infrastructure/middleware/request-validator";
 
 export class AdminCreateProductController implements Controller {
-        constructor(private db: PrismaClient,
-            private adminCreateProductServices: AdminCreateProductServices,
-            private getCategoryById: GetCategoryById
+        constructor(private readonly db: PrismaClient,
+            private readonly adminCreateProductServices: AdminCreateProductServices,
+            private readonly getCategoryById: GetCategoryById
         ){}
 
         public validate = [
@@ -40,7 +40,7 @@ export class AdminCreateProductController implements Controller {
                 return;
             }
 
-            const product = await this.adminCreateProductServices.invoke(
+            await this.adminCreateProductServices.invoke(
                     name,
                     description,
                     price,

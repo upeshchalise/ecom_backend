@@ -5,7 +5,7 @@ import { ProductPaginateRequest } from "../domain/interface/product-paginate.int
 
 export class PrismaProductRepository implements IProductRepository {
     constructor(
-        private db: PrismaClient
+        private readonly db: PrismaClient
     ) { }
 
     async createCategory(name: string): Promise<void> {

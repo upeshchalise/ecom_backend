@@ -4,7 +4,7 @@ import { GetAllProductsService } from "../../../../../contexts/ecom/products/app
 import httpStatus from "http-status";
 
 export class GetAllProductsController implements Controller {
-    constructor(private getAllProductsService: GetAllProductsService){}
+    constructor(private readonly getAllProductsService: GetAllProductsService){}
 
     public async invoke(req:Request, res:Response, next:NextFunction): Promise<void> {
         
