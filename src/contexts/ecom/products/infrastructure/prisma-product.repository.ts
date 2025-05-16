@@ -89,4 +89,25 @@ export class PrismaProductRepository implements IProductRepository {
             data: items
         };
     }
+
+    async getProductById(id: string): Promise<Partial<Product> | null> {
+        return await this.db.product.findFirst({
+            where: {
+                id
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                price: true,
+                image: true,
+                categories: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        })
+    }
 }

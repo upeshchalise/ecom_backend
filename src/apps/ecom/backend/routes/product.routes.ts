@@ -1,7 +1,7 @@
 import {  Router } from "express";
 import * as controller from "../controllers";
 
-export const ProductRouter = (getAllProductsController: controller.GetAllProductsController, router: Router): Router => {
+export const ProductRouter = (getAllProductsController: controller.GetAllProductsController,getProductByIdController:controller.GetProductByIdController, router: Router): Router => {
 
     router.get("/products", getAllProductsController.invoke.bind(getAllProductsController)
         /*
@@ -12,6 +12,16 @@ export const ProductRouter = (getAllProductsController: controller.GetAllProduct
           }]
         */
     
+)
+
+router.get("/product/:productId", getProductByIdController.validate, getProductByIdController.invoke.bind(getProductByIdController)
+        /*
+        #swagger.tags = ['Products']
+        #swagger.description = 'Get Product By Id',
+                 #swagger.security = [{
+              "bearerAuth": []
+          }]
+        */
 )
 
     return router

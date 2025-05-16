@@ -140,6 +140,34 @@
         ]
       }
     },
+    "/product/{productId}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get Product By Id",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/user": {
       "post": {
         "tags": [

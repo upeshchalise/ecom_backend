@@ -10,7 +10,7 @@ import { GetUserByIdService } from "../../../../../contexts/ecom/users/applicati
 export class GetUserByIdController implements Controller {
 
     constructor(
-        private getUserByIdService: GetUserByIdService
+        private readonly getUserByIdService: GetUserByIdService
     ) {}
 
     public validate = [

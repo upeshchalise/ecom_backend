@@ -7,4 +7,5 @@ export interface IProductRepository {
     createProduct(name: string, description: string, price: number, image: string, userId: string, categoryIds: string[]): Promise<void>
     getCategoryById(id: string): Promise<Partial<Category> | null>
     getAllProducts({limit, page, search}:ProductPaginateRequest):Promise<PaginateResponse< Partial<Product[]>>>
+    getProductById(id: string): Promise<Partial<Product> | null>
 }

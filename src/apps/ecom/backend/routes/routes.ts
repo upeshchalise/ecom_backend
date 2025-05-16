@@ -17,6 +17,7 @@ export const MasterRouter = (
     adminCreateCategoryController: controllers.AdminCreateCategoryController,
     adminCreateProductController: controllers.AdminCreateProductController,
     getAllProductsController: controllers.GetAllProductsController,
+    getProductByIdController: controllers.GetProductByIdController,
     adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
     userAuthorizer: IAuthorizer<Request, Response, NextFunction>
 
@@ -45,6 +46,7 @@ AdminRouter(
 )
 ProductRouter(
     getAllProductsController,
+    getProductByIdController,
     apiRouter
 )
 return apiRouter;

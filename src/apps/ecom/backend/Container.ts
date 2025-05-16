@@ -17,66 +17,69 @@ import { AdminCreateCategoryService } from '../../../contexts/ecom/products/appl
 import { AdminCreateProductServices } from '../../../contexts/ecom/products/application/admin-create-product.services';
 import { GetCategoryById } from '../../../contexts/ecom/products/application/get-category-by-id.services';
 import { GetAllProductsService } from '../../../contexts/ecom/products/application/get-all-products.services';
+import { GetProductByIdServices } from '../../../contexts/ecom/products/application/get-product-by-id.services';
 
 
 export class Container {
-    private readonly container: AwilixContainer;
+  private readonly container: AwilixContainer;
 
-    constructor() {
-        this.container = createContainer({
-          injectionMode: InjectionMode.CLASSIC
-        });
-    
-        this.register();
-      }
+  constructor() {
+    this.container = createContainer({
+      injectionMode: InjectionMode.CLASSIC
+    });
 
-      public register():void {
-        this.container.register({
-          server: asClass(Server).singleton(),
-          router: asFunction(Router).singleton(),
-          logger: asClass(ServerLogger).singleton(),
-          db: asFunction(createPrismaClient).singleton(),
+    this.register();
+  }
 
-        })
-        .register({
-          errorMiddleware: asClass(ErrorMiddleware).singleton(),
-          masterRouter: asFunction(MasterRouter).singleton()
-        })
-        .register({
-          healthCheckController: asClass(ApiControllers.HealthCheckController).singleton(),
-          uploadImageController: asClass(ApiControllers.UploadImageController).singleton(),
-        })
-        // user
-        .register({
-          createUserService: asClass(CreateUserService).singleton(),
-          createUserController: asClass(ApiControllers.CreateUserController).singleton(),
-          getUserByEmailService: asClass(GetUserByEmailService).singleton(),
-          getUserByIdService: asClass(GetUserByIdService).singleton(),
-          getUserByIdController: asClass(ApiControllers.GetUserByIdController).singleton(),
-          userLoginController: asClass(ApiControllers.UserLoginController).singleton(),
-          userRepository: asClass(PrismaUserRepository).singleton(),
-        })
-        // products
-        .register({
-          adminCreateCategoryController : asClass(ApiControllers.AdminCreateCategoryController).singleton(),
-          adminCreateCategoryService: asClass(AdminCreateCategoryService).singleton(),
-          adminCreateProductController: asClass(ApiControllers.AdminCreateProductController).singleton(),
-          adminCreateProductServices: asClass(AdminCreateProductServices).singleton(),
-          getCategoryById: asClass(GetCategoryById).singleton(),
-          getAllProductsService: asClass(GetAllProductsService).singleton(),
-          getAllProductsController: asClass(ApiControllers.GetAllProductsController).singleton(),
-          productRepository: asClass(PrismaProductRepository)
-        })
+  public register(): void {
+    this.container.register({
+      server: asClass(Server).singleton(),
+      router: asFunction(Router).singleton(),
+      logger: asClass(ServerLogger).singleton(),
+      db: asFunction(createPrismaClient).singleton(),
 
-        .register({
-          adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
-          userAuthorizer: asClass(JWTUserAuthorizer).singleton()
+    })
+      .register({
+        errorMiddleware: asClass(ErrorMiddleware).singleton(),
+        masterRouter: asFunction(MasterRouter).singleton()
+      })
+      .register({
+        healthCheckController: asClass(ApiControllers.HealthCheckController).singleton(),
+        uploadImageController: asClass(ApiControllers.UploadImageController).singleton(),
+      })
+      // user
+      .register({
+        createUserService: asClass(CreateUserService).singleton(),
+        createUserController: asClass(ApiControllers.CreateUserController).singleton(),
+        getUserByEmailService: asClass(GetUserByEmailService).singleton(),
+        getUserByIdService: asClass(GetUserByIdService).singleton(),
+        getUserByIdController: asClass(ApiControllers.GetUserByIdController).singleton(),
+        userLoginController: asClass(ApiControllers.UserLoginController).singleton(),
+        userRepository: asClass(PrismaUserRepository).singleton(),
+      })
+      // products
+      .register({
+        adminCreateCategoryController: asClass(ApiControllers.AdminCreateCategoryController).singleton(),
+        adminCreateCategoryService: asClass(AdminCreateCategoryService).singleton(),
+        adminCreateProductController: asClass(ApiControllers.AdminCreateProductController).singleton(),
+        adminCreateProductServices: asClass(AdminCreateProductServices).singleton(),
+        getCategoryById: asClass(GetCategoryById).singleton(),
+        getAllProductsService: asClass(GetAllProductsService).singleton(),
+        getAllProductsController: asClass(ApiControllers.GetAllProductsController).singleton(),
+        getProductByIdServices: asClass(GetProductByIdServices).singleton(),
+        getProductByIdController: asClass(ApiControllers.GetProductByIdController).singleton(),
+        productRepository: asClass(PrismaProductRepository)
+      })
 
-        })
-      }
+      .register({
+        adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
+        userAuthorizer: asClass(JWTUserAuthorizer).singleton()
 
-      
-      public invoke(): AwilixContainer {
-        return this.container;
-      }
+      })
+  }
+
+
+  public invoke(): AwilixContainer {
+    return this.container;
+  }
 }
