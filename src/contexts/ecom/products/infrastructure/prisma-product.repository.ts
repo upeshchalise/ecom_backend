@@ -106,6 +106,13 @@ export class PrismaProductRepository implements IProductRepository {
                         id: true,
                         name: true
                     }
+                },
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        image: true
+                    }
                 }
             }
         })
