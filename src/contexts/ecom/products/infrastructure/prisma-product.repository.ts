@@ -117,4 +117,16 @@ export class PrismaProductRepository implements IProductRepository {
             }
         })
     }
+
+    async getAllCategories(): Promise<Partial<Category[]>> {
+        return await this.db.category.findMany({
+            select: {
+                id: true, 
+                name: true,
+                createdAt: true,
+                updatedAt: true,
+                deletedAt: true,
+            }
+        })
+    }
 }

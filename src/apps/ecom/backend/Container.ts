@@ -18,6 +18,7 @@ import { AdminCreateProductServices } from '../../../contexts/ecom/products/appl
 import { GetCategoryById } from '../../../contexts/ecom/products/application/get-category-by-id.services';
 import { GetAllProductsService } from '../../../contexts/ecom/products/application/get-all-products.services';
 import { GetProductByIdServices } from '../../../contexts/ecom/products/application/get-product-by-id.services';
+import { GetAllCategoriesServices } from '../../../contexts/ecom/products/application/get-all-categories.services';
 
 
 export class Container {
@@ -68,6 +69,8 @@ export class Container {
         getAllProductsController: asClass(ApiControllers.GetAllProductsController).singleton(),
         getProductByIdServices: asClass(GetProductByIdServices).singleton(),
         getProductByIdController: asClass(ApiControllers.GetProductByIdController).singleton(),
+        getAllCategoriesServices: asClass(GetAllCategoriesServices).singleton(),
+        getAllCategoriesController: asClass(ApiControllers.GetAllCategoriesController).singleton(),
         productRepository: asClass(PrismaProductRepository)
       })
 
