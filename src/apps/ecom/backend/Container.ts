@@ -1,4 +1,4 @@
-import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
+import { AwilixContainer, InjectionMode, asClass, asFunction, createContainer } from 'awilix';
 import { Router } from './Router';
 import { Server } from './Server';
 import { MasterRouter } from './routes/routes';
@@ -19,6 +19,7 @@ import { GetCategoryById } from '../../../contexts/ecom/products/application/get
 import { GetAllProductsService } from '../../../contexts/ecom/products/application/get-all-products.services';
 import { GetProductByIdServices } from '../../../contexts/ecom/products/application/get-product-by-id.services';
 import { GetAllCategoriesServices } from '../../../contexts/ecom/products/application/get-all-categories.services';
+import { GetProductsByCategoryServices } from '../../../contexts/ecom/products/application/get-products-by-category.services';
 
 
 export class Container {
@@ -71,6 +72,8 @@ export class Container {
         getProductByIdController: asClass(ApiControllers.GetProductByIdController).singleton(),
         getAllCategoriesServices: asClass(GetAllCategoriesServices).singleton(),
         getAllCategoriesController: asClass(ApiControllers.GetAllCategoriesController).singleton(),
+        getProductsByCategoryServices: asClass(GetProductsByCategoryServices).singleton(),
+        getProductsByCategoryController: asClass(ApiControllers.GetProductsByCategoryController).singleton(),
         productRepository: asClass(PrismaProductRepository)
       })
 

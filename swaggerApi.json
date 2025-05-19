@@ -168,6 +168,52 @@
         ]
       }
     },
+    "/categories": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get all categories",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/products/category/{categoryId}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get products by category",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/user": {
       "post": {
         "tags": [

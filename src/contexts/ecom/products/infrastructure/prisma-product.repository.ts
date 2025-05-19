@@ -126,6 +126,27 @@ export class PrismaProductRepository implements IProductRepository {
                 createdAt: true,
                 updatedAt: true,
                 deletedAt: true,
+               _count: {
+                select: {
+                    products: {
+                        where: {
+                            
+                        }
+                    }
+                }
+               }
+            }
+        })
+    }
+
+    async  getProductsByCategory(categoryId: string): Promise<Partial<Product[]>> {
+        return await this.db.product.findMany({
+            where: {
+                categories: {
+                    some: {
+                        id: categoryId
+                    }
+                }
             }
         })
     }
