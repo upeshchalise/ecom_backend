@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node build/index.js",
-    "start:dev": "nodemon --exec ts-node src/apps/ecom/backend/start.ts",
+    "start:backend": "nodemon --exec ts-node src/apps/ecom/backend/start.ts",
     "build": "npm run build:clean && npm run build:tsc",
     "build:tsc": "tsc -p tsconfig.json",
     "build:clean": "rm -r dist; exit 0",

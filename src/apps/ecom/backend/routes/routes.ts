@@ -14,6 +14,7 @@ export const MasterRouter = (
     uploadImageController: controllers.UploadImageController,
     userLoginController: controllers.UserLoginController,
     getUserByIdController: controllers.GetUserByIdController,
+    updateUserController: controllers.UpdateUserController,
     adminCreateCategoryController: controllers.AdminCreateCategoryController,
     adminCreateProductController: controllers.AdminCreateProductController,
     getAllProductsController: controllers.GetAllProductsController,
@@ -33,6 +34,7 @@ export const MasterRouter = (
             createUserController,
             getUserByIdController,
             userLoginController,
+            updateUserController,
             apiRouter
         )
     CommonRouter(

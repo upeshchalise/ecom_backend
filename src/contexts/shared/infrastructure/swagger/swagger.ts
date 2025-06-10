@@ -10,7 +10,7 @@ const doc = {
     title: 'E-commerce API',
     description: 'E-commerce API documentation',
   },
-  host: process.env.BASE_URL || 'localhost:4000',
+  host: process.env.BASE_URL ?? 'localhost:4000',
   schemes: ['http', 'https'],
   servers: [
     {
@@ -32,6 +32,7 @@ const doc = {
     },
     schemas: {
       createUser: Schemas.CreateUserSchema,
+      updateUser: Schemas.UpdateUserSchema,
       loginUser: Schemas.LoginUserSchema,
       createCategory: Schemas.CreateCategorySchema,
       createProduct: Schemas.CreateProductSchema

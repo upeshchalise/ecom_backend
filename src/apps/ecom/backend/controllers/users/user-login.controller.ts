@@ -13,7 +13,7 @@ export class UserLoginController implements Controller {
 
 
     constructor(
-        private getUserByEmailService: GetUserByEmailService
+        private readonly getUserByEmailService: GetUserByEmailService
     ) { }
 
     public validate = [

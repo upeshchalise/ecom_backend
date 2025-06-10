@@ -7,6 +7,13 @@ const CreateUserSchema = {
     $image : "https://example.com/image.png",
     $phone : "1234567890",
 }
+const UpdateUserSchema = {
+    $first_name : "john",
+    $last_name : "doe",
+    $address : "123 Main St",
+    $image : "https://example.com/image.png",
+    $phone : "1234567890",
+}
 
 const LoginUserSchema = {
     $email : "o1oYb@example.com",
@@ -25,6 +32,7 @@ const CreateProductSchema = {
 }
 export const Schemas = {
     CreateUserSchema,
+    UpdateUserSchema,
     LoginUserSchema,
     CreateCategorySchema,
     CreateProductSchema

@@ -13,6 +13,15 @@ export interface IUserRepository {
         phone?: string,
     ): Promise<void>;
 
+    updateUser(
+        id: string,
+        firstName?: string,
+        lastName?: string,
+        image?: string,
+        phone?: string,
+        address?: string,
+    ): Promise<void>;
+
     getUserByEmail(email: string): Promise<Partial<User> | null>;
     getUserById(id: string): Promise<Partial<User> | null>
 }

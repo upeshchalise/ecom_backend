@@ -2,7 +2,7 @@ import { PrismaClient, User, UserRole } from "@prisma/client";
 import { IUserRepository } from "../domain/repository/user.repository";
 
 export class PrismaUserRepository implements IUserRepository {
-    constructor(private db: PrismaClient){}
+    constructor(private readonly db: PrismaClient){}
 
     async createUser(firstName: string, lastName: string, email: string, password: string, address: string, role: UserRole, image?: string, phone?: string):Promise<void> {
         await this.db.user.create({
@@ -19,6 +19,25 @@ export class PrismaUserRepository implements IUserRepository {
         })
     }
 
+    async updateUser(
+        id: string,
+        firstName?: string,
+        lastName?: string,
+        image?: string,
+        phone?: string,
+        address?: string,
+    ): Promise<void> {
+        await this.db.user.update({
+            where: { id },
+            data: {
+                firstName,
+                lastName,
+                image,
+                phone,
+                address,
+            }
+        })
+    }
     async getUserByEmail(email: string): Promise<Partial<User> | null> {
         return await this.db.user.findFirst({
             where: {

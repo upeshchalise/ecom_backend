@@ -20,6 +20,7 @@ import { GetAllProductsService } from '../../../contexts/ecom/products/applicati
 import { GetProductByIdServices } from '../../../contexts/ecom/products/application/get-product-by-id.services';
 import { GetAllCategoriesServices } from '../../../contexts/ecom/products/application/get-all-categories.services';
 import { GetProductsByCategoryServices } from '../../../contexts/ecom/products/application/get-products-by-category.services';
+import { UpdateUserServices } from '../../../contexts/ecom/users/application/update-user.services';
 
 
 export class Container {
@@ -57,6 +58,8 @@ export class Container {
         getUserByIdService: asClass(GetUserByIdService).singleton(),
         getUserByIdController: asClass(ApiControllers.GetUserByIdController).singleton(),
         userLoginController: asClass(ApiControllers.UserLoginController).singleton(),
+        updateUserServices: asClass(UpdateUserServices).singleton(),
+        updateUserController: asClass(ApiControllers.UpdateUserController).singleton(),
         userRepository: asClass(PrismaUserRepository).singleton(),
       })
       // products

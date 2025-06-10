@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as controller from "../controllers";
 
-export const UsersRouter = (createUserController: controller.CreateUserController,getUserByIdController:controller.GetUserByIdController,userLoginController: controller.UserLoginController, router: Router): Router => {
+export const UsersRouter = (createUserController: controller.CreateUserController,getUserByIdController:controller.GetUserByIdController,userLoginController: controller.UserLoginController,updateUserController: controller.UpdateUserController, router: Router): Router => {
 
     router.post("/user", createUserController.validate, createUserController.invoke.bind(createUserController)
         /*#swagger.tags = ['User']
@@ -26,6 +26,17 @@ export const UsersRouter = (createUserController: controller.CreateUserControlle
         #swagger.requestBody ={
             schema : {
                 $ref: "#/components/schemas/loginUser"
+            }
+        }
+        */
+)
+
+router.put("/user/:userId", updateUserController.validate, updateUserController.invoke.bind(updateUserController)
+/*#swagger.tags = ['User']
+        #swagger.description = 'Update User API',
+        #swagger.requestBody ={
+            schema : {
+                $ref: "#/components/schemas/updateUser"
             }
         }
         */

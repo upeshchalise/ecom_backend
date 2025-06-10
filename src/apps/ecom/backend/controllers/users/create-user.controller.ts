@@ -18,8 +18,8 @@ const isValidEmail = (value: string) => {
 
 export class CreateUserController implements Controller {
 
-    constructor(private createUserService: CreateUserService,
-        private getUserByEmailService: GetUserByEmailService
+    constructor(private readonly createUserService: CreateUserService,
+        private readonly getUserByEmailService: GetUserByEmailService
     ) { }
 
     public validate = [

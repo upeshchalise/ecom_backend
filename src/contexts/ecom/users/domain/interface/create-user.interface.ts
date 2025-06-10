@@ -10,3 +10,12 @@ export interface CreateUserRequest {
     address: string;
     role: UserRole;
 }
+
+export interface UpdateUserRequest {
+    id: string; 
+    firstName?: string;
+    lastName?: string;
+    image?: string;
+    phone?: string;
+    address?: string;
+}
