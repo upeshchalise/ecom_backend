@@ -4,12 +4,12 @@ import { AddressInfo } from 'net';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winstonLogger';
 
 export class Server {
-    private readonly express: express.Application;
-  private http: http.Server | any;
+  private readonly express: express.Application;
+  private http!: http.Server;
 
   constructor(
-    private router: express.Router,
-    private logger: ServerLogger,
+    private readonly router: express.Router,
+    private readonly logger: ServerLogger,
   ) {
     this.express = express();
     this.express.use(this.logger.stream());
@@ -19,7 +19,7 @@ export class Server {
 
   public start = async (): Promise<void> => {
     return await new Promise<void>(resolve => {
-      this.http = this.express.listen(4000, () => {
+      this.http = this.express.listen(process.env.PORT, () => {
         const { port } = this.http.address() as AddressInfo;
         this.logger.info(`🚀 Application runnings at http://localhost:${port}`);
         resolve();
