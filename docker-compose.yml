@@ -1,0 +1,23 @@
+services: 
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    env_file: 
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    env_file: 
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
