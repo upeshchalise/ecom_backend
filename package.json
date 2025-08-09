@@ -15,7 +15,8 @@
     "migration:status": "prisma migrate status",
     "migration:deploy": "prisma migrate deploy",
     "generate:prisma": "prisma generate",
-    "swagger": "ts-node src/contexts/shared/infrastructure/swagger/swagger.ts"
+    "swagger": "ts-node src/contexts/shared/infrastructure/swagger/swagger.ts",
+    "seed": "ts-node prisma/seed.ts"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
   "homepage": "https://github.com/upeshchalise/ecom_backend#readme",
   "description": "",
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@prisma/client": "^6.7.0",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.2",
