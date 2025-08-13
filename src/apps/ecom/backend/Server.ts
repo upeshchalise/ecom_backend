@@ -36,7 +36,7 @@ export class Server {
       if (this.http) {
         this.http.close((error: any) => {
           if (error) {
-            return reject(error);
+            return reject(new Error(error));
           }
           return resolve();
         });

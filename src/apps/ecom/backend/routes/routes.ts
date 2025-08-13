@@ -6,6 +6,7 @@ import { AdminRouter } from "./admin.routes";
 import { ProductRouter } from "./product.routes"
 import * as controllers from '../controllers';
 import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAuthorizer";
+import { PaymentRouter } from "./payment.routes";
 
 export const MasterRouter = (
     // healthCheck
@@ -21,6 +22,7 @@ export const MasterRouter = (
     getProductByIdController: controllers.GetProductByIdController,
     getAllCategoriesController: controllers.GetAllCategoriesController,
     getProductsByCategoryController: controllers.GetProductsByCategoryController,
+    paymentController: controllers.PaymentController,
     adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
     userAuthorizer: IAuthorizer<Request, Response, NextFunction>
 
@@ -29,14 +31,14 @@ export const MasterRouter = (
     HealthCheckRouter(
         healthCheckController,
         apiRouter
-    ),
-        UsersRouter(
-            createUserController,
-            getUserByIdController,
-            userLoginController,
-            updateUserController,
-            apiRouter
-        )
+    )
+    UsersRouter(
+        createUserController,
+        getUserByIdController,
+        userLoginController,
+        updateUserController,
+        apiRouter
+    )
     CommonRouter(
         uploadImageController,
         apiRouter
@@ -53,6 +55,10 @@ export const MasterRouter = (
         getProductByIdController,
         getAllCategoriesController,
         getProductsByCategoryController,
+        apiRouter
+    )
+    PaymentRouter(
+        paymentController,
         apiRouter
     )
     return apiRouter;

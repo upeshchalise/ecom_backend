@@ -122,6 +122,19 @@
         }
       }
     },
+    "/payment": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "description": "Payment API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "tags": [
