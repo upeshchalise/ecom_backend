@@ -23,6 +23,7 @@ export const MasterRouter = (
     getAllCategoriesController: controllers.GetAllCategoriesController,
     getProductsByCategoryController: controllers.GetProductsByCategoryController,
     paymentController: controllers.PaymentController,
+    esewaVerifyController: controllers.EsewaVerifyController,
     adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
     userAuthorizer: IAuthorizer<Request, Response, NextFunction>
 
@@ -59,6 +60,7 @@ export const MasterRouter = (
     )
     PaymentRouter(
         paymentController,
+        esewaVerifyController,
         apiRouter
     )
     return apiRouter;

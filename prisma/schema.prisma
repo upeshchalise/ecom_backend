@@ -38,7 +38,7 @@ enum InteractionType {
   VIEW
   CART
   PURCHASE
-  }
+}
 
 model User {
   id        String    @id @default(uuid())
@@ -73,75 +73,74 @@ model Category {
 }
 
 model Product {
-  id     String @id @default(uuid())
-  name   String
+  id          String    @id @default(uuid())
+  name        String
   description String
-  price Decimal @db.Decimal(10,2)
-  image String?
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  price       Decimal   @db.Decimal(10, 2)
+  image       String?
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 
   categories Category[] @relation("ProductCategories")
 
   OrderItems OrderItems[]
 }
 
-
 model Order {
-    id           String       @id @default(uuid())
-    user         User         @relation(fields: [userId], references: [id])
-    userId      String
-    totalAmount Decimal @db.Decimal(10,2)
-    destination  String?
-    orderItems  OrderItems[]
-    createdAt   DateTime?    @default(now())
-    updatedAt   DateTime?    @updatedAt
-    deletedAt   DateTime?
+  id          String       @id @default(uuid())
+  user        User         @relation(fields: [userId], references: [id])
+  userId      String
+  totalAmount Decimal      @db.Decimal(10, 2)
+  destination String?
+  orderItems  OrderItems[]
+  createdAt   DateTime?    @default(now())
+  updatedAt   DateTime?    @updatedAt
+  deletedAt   DateTime?
 
-    Payments Payments[]
+  Payments Payments[]
 }
 
 model OrderItems {
-    id         String    @id @default(uuid())
-    order     Order   @relation(fields: [orderId], references: [id])
-    orderId   String
-    product    Product  @relation(fields: [productId], references: [id])
-    productId String
-    quantity   Int
-    unitPrice Decimal @db.Decimal(10,2)
-    createdAt DateTime? @default(now())
-    updatedAt DateTime? @updatedAt
-    deletedAt DateTime?
+  id        String    @id @default(uuid())
+  order     Order     @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product   @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+  unitPrice Decimal   @db.Decimal(10, 2)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 }
 
 model Payments {
-    id          String    @id @default(uuid())
-    order       Order   @relation(fields: [orderId], references: [id])
-    orderId     String
-    amount      Decimal @db.Decimal(10,2)
-    paymentDate DateTime? @default(now())
-    paymentMethod PaymentMethod
-    status      PaymentsStatus
-    createdAt  DateTime? @default(now())
-    updatedAt  DateTime? @updatedAt
-    deletedAt  DateTime?
+  id            String         @id @default(uuid())
+  order         Order          @relation(fields: [orderId], references: [id])
+  orderId       String
+  amount        Decimal        @db.Decimal(10, 2)
+  paymentDate   DateTime?      @default(now())
+  paymentMethod PaymentMethod
+  status        PaymentsStatus
+  transactionId String?        @unique
+  createdAt     DateTime?      @default(now())
+  updatedAt     DateTime?      @updatedAt
+  deletedAt     DateTime?
 }
 
 model UserInteractedCategory {
-  id          String    @id @default(uuid())
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String
-  category    Category  @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  interactionType InteractionType
-  interactionCount Int          @default(1)
-  lastInteractedAt DateTime @default(now())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id               String          @id @default(uuid())
+  user             User            @relation(fields: [userId], references: [id])
+  userId           String
+  category         Category        @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  interactionType  InteractionType
+  interactionCount Int             @default(1)
+  lastInteractedAt DateTime        @default(now())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 
   @@unique([userId, categoryId, interactionType])
-
 }

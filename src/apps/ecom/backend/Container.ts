@@ -82,6 +82,7 @@ export class Container {
 
       .register({
         paymentController: asClass(ApiControllers.PaymentController).singleton(),
+        esewaVerifyController: asClass(ApiControllers.EsewaVerifyController).singleton(),
       })
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
