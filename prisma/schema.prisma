@@ -40,6 +40,12 @@ enum InteractionType {
   PURCHASE
 }
 
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
 model User {
   id        String    @id @default(uuid())
   firstName String
@@ -96,6 +102,7 @@ model Order {
   totalAmount Decimal      @db.Decimal(10, 2)
   destination String?
   orderItems  OrderItems[]
+  status      OrderStatus @default(PENDING)
   createdAt   DateTime?    @default(now())
   updatedAt   DateTime?    @updatedAt
   deletedAt   DateTime?

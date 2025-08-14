@@ -60,7 +60,7 @@ export class CreateUserController implements Controller {
                 email: email.toLowerCase(),
                 password: hashedPassword,
                 address,
-                role: role ?? UserRole.BUYER,
+                role: role ?? UserRole.USER,
                 image,
                 phone,
 

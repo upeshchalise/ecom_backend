@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from "express";
+
 import { Controller } from "../controller";
 import { body } from "express-validator";
 import { RequestValidator } from "../../../../../contexts/shared/infrastructure/middleware/request-validator";
-import { generateHmacSha256Hash, safeStringify } from "../../../../../contexts/shared/infrastructure/utils/generate-hmac";
-import axios from "axios";
+import { generateHmacSha256Hash } from "../../../../../contexts/shared/infrastructure/utils/generate-hmac";
+import { PrismaClient } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export class PaymentController implements Controller {
 
-    // constructor(){}
+    constructor(private readonly db: PrismaClient) { }
     public validate = [
         body('amount').exists().withMessage('Amount is required and must be a number').isNumeric().withMessage('Amount is required and must be a number'),
         body('paymentMethod').exists().withMessage('Payment method is required').isIn(['esewa', 'khalti']).isString().withMessage('Payment method is required'),
@@ -16,7 +18,8 @@ export class PaymentController implements Controller {
     ]
     async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const { amount, paymentMethod, status, transactionId } = req.body
+            // const {user_id} = req.user;
+            const { amount, paymentMethod, status, transactionId,destination, items } = req.body
             console.log("Payment details:", { amount, paymentMethod, status });
             switch (paymentMethod) {
                 case 'esewa': {
@@ -44,6 +47,35 @@ export class PaymentController implements Controller {
                         signed_field_names,
                         signature,
                     };
+
+
+                    await this.db.order.create({
+                        data: {
+                            userId: req?.params?.userId, // Assuming user_id is passed in headers
+                            totalAmount: new Decimal(amount),
+                            destination: destination ?? "home",
+                            orderItems: {
+                                create: items.map((item: any) => ({
+                                    productId: item.id,
+                                    quantity: item.quantity,
+                                    unitPrice: new Decimal(item.price),
+                                })),
+                            },
+                            Payments: {
+                                create: {
+                                    amount: new Decimal(amount),
+                                    paymentMethod: 'ESEWA',
+                                    status: 'PENDING',
+                                    transactionId,
+                                },
+                            },
+                        },
+                        include: {
+                            orderItems: true,
+                            Payments: true,
+                        },
+                    });
+
 
                     res.status(200).json({
                         esewaUrl: paymentUrl,

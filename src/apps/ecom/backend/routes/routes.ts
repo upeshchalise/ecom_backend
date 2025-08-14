@@ -61,6 +61,7 @@ export const MasterRouter = (
     PaymentRouter(
         paymentController,
         esewaVerifyController,
+        userAuthorizer,
         apiRouter
     )
     return apiRouter;
