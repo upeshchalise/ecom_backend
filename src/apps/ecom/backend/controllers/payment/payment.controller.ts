@@ -4,8 +4,9 @@ import { Controller } from "../controller";
 import { body } from "express-validator";
 import { RequestValidator } from "../../../../../contexts/shared/infrastructure/middleware/request-validator";
 import { generateHmacSha256Hash } from "../../../../../contexts/shared/infrastructure/utils/generate-hmac";
-import { PrismaClient } from "@prisma/client";
+import { PaymentMethod, PaymentsStatus, PrismaClient } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
+
 
 export class PaymentController implements Controller {
 
@@ -13,14 +14,19 @@ export class PaymentController implements Controller {
     public validate = [
         body('amount').exists().withMessage('Amount is required and must be a number').isNumeric().withMessage('Amount is required and must be a number'),
         body('paymentMethod').exists().withMessage('Payment method is required').isIn(['esewa', 'khalti']).isString().withMessage('Payment method is required'),
-        // body('status').exists().withMessage('Invalid payment status').isIn(['pending', 'completed', 'failed']).withMessage('Invalid payment status'),
+        body('transactionId').exists().withMessage('Transaction ID is required').isString().withMessage('Transaction ID is required'),
+        body('destination').optional().isString().withMessage('Destination must be a string'),
+        body('items').exists().withMessage('Items are required').isArray().withMessage('Items must be an array'),
+        body('items.*.id').exists().withMessage('Item ID is required').isUUID().withMessage('Item ID must be a valid UUID'),
+        body('items.*.quantity').exists().withMessage('Item quantity is required').isInt().withMessage('Item quantity must be an integer'),
+        body('items.*.price').exists().withMessage('Item price is required').isNumeric().withMessage('Item price must be a number'),
         RequestValidator
     ]
     async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            // const {user_id} = req.user;
+            // const userId = req.params.userId;
+            console.log("PaymentController invoked");
             const { amount, paymentMethod, status, transactionId,destination, items } = req.body
-            console.log("Payment details:", { amount, paymentMethod, status });
             switch (paymentMethod) {
                 case 'esewa': {
                     const product_code = process.env.ESEWA_MERCHANT_ID!;
@@ -30,10 +36,10 @@ export class PaymentController implements Controller {
                     const secret = process.env.ESEWA_SECRET_KEY!;
 
                     const signed_field_names = 'total_amount,transaction_uuid,product_code';
-
                     const dataToSign = `total_amount=${amount},transaction_uuid=${transactionId},product_code=${product_code}`;
+                    console.log("Signed field names: 1111", dataToSign);
                     const signature = generateHmacSha256Hash(dataToSign, secret);
-
+console.log("Signature: 1111", signature);
                     const payload = {
                         amount,
                         tax_amount: 0,
@@ -64,8 +70,8 @@ export class PaymentController implements Controller {
                             Payments: {
                                 create: {
                                     amount: new Decimal(amount),
-                                    paymentMethod: 'ESEWA',
-                                    status: 'PENDING',
+                                    paymentMethod: PaymentMethod.ESEWA,
+                                    status: PaymentsStatus.PENDING,
                                     transactionId,
                                 },
                             },
@@ -76,7 +82,7 @@ export class PaymentController implements Controller {
                         },
                     });
 
-
+console.log("Payment URL:", transactionId);
                     res.status(200).json({
                         esewaUrl: paymentUrl,
                         payload

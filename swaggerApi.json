@@ -122,12 +122,35 @@
         }
       }
     },
-    "/payment": {
+    "/payment/{userId}": {
       "post": {
         "tags": [
           "Payment"
         ],
         "description": "Payment API",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/verify": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "description": "Payment verification API",
         "responses": {
           "default": {
             "description": ""

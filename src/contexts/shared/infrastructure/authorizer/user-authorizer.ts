@@ -13,7 +13,6 @@ export class JWTUserAuthorizer implements IAuthorizer<Request, Response, NextFun
         try {
             const validRoles = [UserRole.ADMIN, UserRole.BUYER, UserRole.SELLER, UserRole.USER];
             const payload: Payload = jwt.verify(token, process.env.JWT_SECRET_KEY!) as Payload
-            console.log("payload", payload.role)
             if(validRoles.includes(payload.role as any) && (payload.scope.includes(TokenScope.ADMIN_ACCESS) || payload.scope.includes(TokenScope.USER_ACCESS))) {
                 req.user = payload;
                 return next()

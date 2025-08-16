@@ -4,12 +4,12 @@ import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAutho
 
 
 export const PaymentRouter = (paymentController: controller.PaymentController,esewaVerifyController: controller.EsewaVerifyController,userAuthorizer: IAuthorizer<Request, Response, NextFunction>, router:Router): Router => {
-    router.post("/payment/:userId", paymentController.validate,paymentController.invoke.bind(paymentController)
+    router.post("/payment/:userId", userAuthorizer.authorize,paymentController.validate,paymentController.invoke.bind(paymentController)
     /*#swagger.tags = ['Payment']
     #swagger.description = 'Payment API'
     */);
 
-    router.get("/payment/esewa/verify", esewaVerifyController.validate,esewaVerifyController.invoke.bind(esewaVerifyController)
+    router.get("/verify", esewaVerifyController.validate,esewaVerifyController.invoke.bind(esewaVerifyController)
       /*#swagger.tags = ['Payment']
     #swagger.description = 'Payment verification API'
     */

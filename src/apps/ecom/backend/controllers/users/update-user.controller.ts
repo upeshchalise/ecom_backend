@@ -13,7 +13,6 @@ export class UpdateUserController implements Controller {
 
     ) { }
 
-
     public validate = [
             body('first_name').exists().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME).notEmpty().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
             body('last_name').exists().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME).notEmpty().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),

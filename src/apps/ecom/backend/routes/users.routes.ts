@@ -14,7 +14,7 @@ export const UsersRouter = (createUserController: controller.CreateUserControlle
         */
     );
 
-    router.get("/user/:id",getUserByIdController.validate, getUserByIdController.invoke.bind(createUserController)
+    router.get("/user/profile", getUserByIdController.invoke.bind(getUserByIdController)
         /*#swagger.tags = ['User']
         #swagger.description = 'Get User By Id API',
         */
