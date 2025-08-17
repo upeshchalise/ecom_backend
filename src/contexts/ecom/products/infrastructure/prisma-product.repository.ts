@@ -43,7 +43,8 @@ export class PrismaProductRepository implements IProductRepository {
         })
     }
 
-    async getAllProducts({ limit = 10, page = 1, search = "" }: ProductPaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
+    async getAllProducts({ limit = 10, page = 1, search = "", categories=[] }: ProductPaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
+        console.log("categories", categories)
         const whereArgs: Prisma.ProductFindManyArgs['where'] = {
             deletedAt: null,
         }
@@ -54,6 +55,20 @@ export class PrismaProductRepository implements IProductRepository {
                 mode: "insensitive"
             }
         }
+
+        if (
+            categories && categories.length > 0
+        ) { 
+            whereArgs.categories = {
+                some: {
+                    name: {
+                        in: categories
+                    }
+                }
+            }
+        }
+
+
         const [items, total_count] = await this.db.$transaction([
             this.db.product.findMany({
                 where: whereArgs,
@@ -121,25 +136,25 @@ export class PrismaProductRepository implements IProductRepository {
     async getAllCategories(): Promise<Partial<Category[]>> {
         return await this.db.category.findMany({
             select: {
-                id: true, 
+                id: true,
                 name: true,
                 createdAt: true,
                 updatedAt: true,
                 deletedAt: true,
-               _count: {
-                select: {
-                    products: {
-                        where: {
-                            
+                _count: {
+                    select: {
+                        products: {
+                            where: {
+
+                            }
                         }
                     }
                 }
-               }
             }
         })
     }
 
-    async  getProductsByCategory(categoryId: string): Promise<Partial<Product[]>> {
+    async getProductsByCategory(categoryId: string): Promise<Partial<Product[]>> {
         return await this.db.product.findMany({
             where: {
                 categories: {

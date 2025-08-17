@@ -8,11 +8,14 @@ export class GetAllProductsController implements Controller {
 
     public async invoke(req:Request, res:Response, next:NextFunction): Promise<void> {
         
+      console.log("query params", req.query);
+      const categoriesFilter = req.query.categories ? (req.query.categories as string).split(",") : []
         try {
           const products =  await this.getAllProductsService.invoke({
             limit: Number(req.query.pageSize),
             page: Number(req.query.page),
-            search: req.query.search as string
+            search: req.query.search as string,
+            categories: categoriesFilter
           });
             res.status(httpStatus.OK).send(products);
         } catch (error) {

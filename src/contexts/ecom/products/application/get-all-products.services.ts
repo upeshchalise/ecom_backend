@@ -6,7 +6,7 @@ import { ProductPaginateRequest } from "../domain/interface/product-paginate.int
 export class GetAllProductsService {
     constructor(private readonly productRepository: IProductRepository) { }
 
-    async invoke({limit, page, search}:ProductPaginateRequest): Promise<PaginateResponse< Partial<Product[]>>>{
-        return this.productRepository.getAllProducts({limit, page, search});
+    async invoke({limit, page, search, categories}:ProductPaginateRequest): Promise<PaginateResponse< Partial<Product[]>>>{
+        return this.productRepository.getAllProducts({limit, page, search, categories});
     }
 }
