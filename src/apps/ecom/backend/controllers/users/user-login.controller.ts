@@ -47,6 +47,14 @@ export class UserLoginController implements Controller {
             }
 
             const jwtToken = JWTSign(payload, process.env.JWT_SECRET_KEY!, { expiresIn: 3600 }, { expiresIn: 10800 })
+
+            res.cookie('thrift', jwtToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 1000
+            })
+
             res.status(httpStatus.OK).send({
                 token: jwtToken,
                 user: {

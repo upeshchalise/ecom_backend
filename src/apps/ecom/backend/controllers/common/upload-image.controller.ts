@@ -4,7 +4,6 @@ import cloudinary from "../../../../../contexts/shared/infrastructure/uploads/cl
 import fs from "fs/promises";
 
 export class UploadImageController implements Controller {
-    constructor() { }
 
     public async invoke(req: Request, res: Response): Promise<void> {
         try {
