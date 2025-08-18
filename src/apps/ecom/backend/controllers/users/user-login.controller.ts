@@ -51,8 +51,8 @@ export class UserLoginController implements Controller {
             res.cookie('thrift', jwtToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
-                maxAge: 60 * 60 * 1000
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                maxAge: 60 * 60 * 1000,
             })
 
             res.status(httpStatus.OK).send({

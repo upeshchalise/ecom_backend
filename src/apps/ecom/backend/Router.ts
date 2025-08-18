@@ -8,7 +8,10 @@ import swaggerDocument from '../../../../swaggerApi.json';
 
 export const Router = (masterRouter: ExpressRouter, errorMiddleware: any): ExpressRouter => {
   const router = ExpressRouter();
-  router.use(cors());
+  router.use(cors({
+    origin: process.env.FRONTEND_URL!,
+    credentials: true
+  }));
   router.use(helmet());
 
   router
