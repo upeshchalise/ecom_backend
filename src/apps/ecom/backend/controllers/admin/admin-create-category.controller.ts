@@ -7,13 +7,14 @@ import { RequestValidator } from "../../../../../contexts/shared/infrastructure/
 import { GetUserByIdService } from "../../../../../contexts/ecom/users/application/get-user-by-id.services";
 import httpStatus from "http-status";
 import { UserRole } from "@prisma/client";
+import { GetCategoryByName } from "../../../../../contexts/ecom/products/application/get-category-by-name.services";
 
 export class AdminCreateCategoryController implements Controller {
 
     constructor(
-        private adminCreateCategoryService: AdminCreateCategoryService,
-        private getUserByIdService: GetUserByIdService
-
+        private readonly adminCreateCategoryService: AdminCreateCategoryService,
+        private readonly getUserByIdService: GetUserByIdService,
+        private readonly getCategoryByName: GetCategoryByName
     ) { }
 
     public validate = [
@@ -22,20 +23,26 @@ export class AdminCreateCategoryController implements Controller {
     ]
     public async invoke(req: any, res: Response, next: NextFunction): Promise<void> {
         try {
-        const user_id = req.user.user_id as string        
+            const user_id = req.user.user_id as string
 
-        const user = await this.getUserByIdService.invoke(String(user_id))
+            const user = await this.getUserByIdService.invoke(String(user_id))
 
-        if (!user || user.role !== UserRole.ADMIN) {
-            res.status(httpStatus.UNAUTHORIZED).send(MESSAGE_CODES.NOT_AUTHORIZED);
-            return;
-        }
+            if (!user || user.role !== UserRole.ADMIN) {
+                res.status(httpStatus.UNAUTHORIZED).send(MESSAGE_CODES.NOT_AUTHORIZED);
+                return;
+            }
 
-        const { name } = req.body;
-            await this.adminCreateCategoryService.invoke(name);
+            const { name } = req.body;
+            const category = await this.getCategoryByName.invoke(name?.toLowerCase())
+            if (category) {
+                res.status(httpStatus.BAD_REQUEST).send(`Category "${name}" already exists`)
+                return
+            }
+
+            await this.adminCreateCategoryService.invoke(name?.toLowerCase());
             res.status(httpStatus.CREATED).send();
         } catch (error) {
-            console.log(error,"errrrr");
+            console.log(error, "errrrr");
             next(error);
 
         }

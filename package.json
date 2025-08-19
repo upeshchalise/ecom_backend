@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/apps/ecom/backend/start.js",
-    "start:backend": "nodemon --exec ts-node src/apps/ecom/backend/start.ts",
+    "dev:backend": "nodemon --exec ts-node src/apps/ecom/backend/start.ts",
     "build": "npm run build:clean && npm run build:tsc && cp swaggerApi.json dist/swaggerApi.json",
     "build:tsc": "tsc -p tsconfig.json",
     "build:clean": "rm -rf dist; exit 0",

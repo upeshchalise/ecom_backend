@@ -277,22 +277,12 @@
         }
       }
     },
-    "/user/{id}": {
+    "/user/profile": {
       "get": {
         "tags": [
           "User"
         ],
         "description": "Get User By Id API",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "default": {
             "description": ""

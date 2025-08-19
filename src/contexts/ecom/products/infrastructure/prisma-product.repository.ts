@@ -165,4 +165,15 @@ export class PrismaProductRepository implements IProductRepository {
             }
         })
     }
+
+    async getCategoryByName(name: string): Promise<Partial<Category> | null> {
+        return await this.db.category.findFirst({
+            where: {
+                name: {
+                    equals: name,
+                    mode: "insensitive"
+                }
+            }
+        })
+    }
 }

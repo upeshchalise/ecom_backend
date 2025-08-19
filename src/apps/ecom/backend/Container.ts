@@ -21,6 +21,7 @@ import { GetProductByIdServices } from '../../../contexts/ecom/products/applicat
 import { GetAllCategoriesServices } from '../../../contexts/ecom/products/application/get-all-categories.services';
 import { GetProductsByCategoryServices } from '../../../contexts/ecom/products/application/get-products-by-category.services';
 import { UpdateUserServices } from '../../../contexts/ecom/users/application/update-user.services';
+import { GetCategoryByName } from '../../../contexts/ecom/products/application/get-category-by-name.services';
 
 
 export class Container {
@@ -77,6 +78,7 @@ export class Container {
         getAllCategoriesController: asClass(ApiControllers.GetAllCategoriesController).singleton(),
         getProductsByCategoryServices: asClass(GetProductsByCategoryServices).singleton(),
         getProductsByCategoryController: asClass(ApiControllers.GetProductsByCategoryController).singleton(),
+        getCategoryByName:asClass(GetCategoryByName).singleton(),
         productRepository: asClass(PrismaProductRepository)
       })
 

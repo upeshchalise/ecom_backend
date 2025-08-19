@@ -10,4 +10,5 @@ export interface IProductRepository {
     getProductById(id: string): Promise<Partial<Product> | null>
     getAllCategories(): Promise<Partial<Category[]>>
     getProductsByCategory(categoryId: string): Promise<Partial<Product[]>>
+    getCategoryByName(name: string): Promise<Partial<Category> | null>
 }
