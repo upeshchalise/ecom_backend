@@ -1,8 +1,6 @@
 import {  Response } from "express";
 import { Controller } from "../controller";
-import { HTTP400Error } from "../../../../../contexts/shared/domain/errors/http.exception";
 import httpStatus from "http-status";
-import { MESSAGE_CODES } from "../../../../../contexts/shared/infrastructure/utils/message-code";
 import { GetUserByIdService } from "../../../../../contexts/ecom/users/application/get-user-by-id.services";
 
 export class GetUserByIdController implements Controller {
@@ -13,14 +11,15 @@ export class GetUserByIdController implements Controller {
 
     public async invoke(req: any, res: Response): Promise<void> {
         try {
-            // const {user_id} = req.user!
+            console.log("GetUserByIdController invoked", req.user.user_id as string);
+            const user_id = req.user.user_id as string
+            console.log("userid",user_id);
+            const isUser = await this.getUserByIdService.invoke(user_id);
 
-            console.log(req.user)
-            const isUser = await this.getUserByIdService.invoke(req.params.id!);
-
-            // if (!isUser) {
-            //     throw new HTTP400Error(MESSAGE_CODES.USER.USER_NOT_FOUND)
-            // }
+            if (!isUser) {
+                res.status(httpStatus.NOT_FOUND).send("User not found");
+                return;
+            }
 
             res.status(httpStatus.CREATED).send(isUser);
         } catch (error) {

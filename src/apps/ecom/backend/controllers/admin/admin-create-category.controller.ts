@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import {  Response, NextFunction } from "express";
 import { Controller } from "../controller";
 import { AdminCreateCategoryService } from "../../../../../contexts/ecom/products/application/admin-create-category.services";
 import { body } from "express-validator";

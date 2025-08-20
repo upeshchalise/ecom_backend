@@ -1,7 +1,8 @@
-import { Router } from "express";
+import { NextFunction,Request,Response, Router } from "express";
 import * as controller from "../controllers";
+import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAuthorizer";
 
-export const UsersRouter = (createUserController: controller.CreateUserController,getUserByIdController:controller.GetUserByIdController,userLoginController: controller.UserLoginController,updateUserController: controller.UpdateUserController, router: Router): Router => {
+export const UsersRouter = (createUserController: controller.CreateUserController,getUserByIdController:controller.GetUserByIdController,userLoginController: controller.UserLoginController,updateUserController: controller.UpdateUserController,userAuthorizer: IAuthorizer<Request, Response, NextFunction>, router: Router): Router => {
 
     router.post("/user", createUserController.validate, createUserController.invoke.bind(createUserController)
         /*#swagger.tags = ['User']
@@ -14,7 +15,7 @@ export const UsersRouter = (createUserController: controller.CreateUserControlle
         */
     );
 
-    router.get("/user/profile", getUserByIdController.invoke.bind(getUserByIdController)
+    router.get("/user/profile", userAuthorizer.authorize,getUserByIdController.invoke.bind(getUserByIdController)
         /*#swagger.tags = ['User']
         #swagger.description = 'Get User By Id API',
         */

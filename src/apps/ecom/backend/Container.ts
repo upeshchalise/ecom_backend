@@ -22,6 +22,8 @@ import { GetAllCategoriesServices } from '../../../contexts/ecom/products/applic
 import { GetProductsByCategoryServices } from '../../../contexts/ecom/products/application/get-products-by-category.services';
 import { UpdateUserServices } from '../../../contexts/ecom/users/application/update-user.services';
 import { GetCategoryByName } from '../../../contexts/ecom/products/application/get-category-by-name.services';
+import { AdminGetAllCategoriesService } from '../../../contexts/ecom/products/application/admin-get-all-categories.services';
+import { AdminGetAllProductsByCategoryIdService } from '../../../contexts/ecom/products/application/admin-get-all-products-by-category-id.services';
 
 
 export class Container {
@@ -76,8 +78,12 @@ export class Container {
         getProductByIdController: asClass(ApiControllers.GetProductByIdController).singleton(),
         getAllCategoriesServices: asClass(GetAllCategoriesServices).singleton(),
         getAllCategoriesController: asClass(ApiControllers.GetAllCategoriesController).singleton(),
+        adminGetAllCategoriesService: asClass(AdminGetAllCategoriesService).singleton(),
+        adminGetAllCategories: asClass(ApiControllers.AdminGetAllCategories).singleton(),
         getProductsByCategoryServices: asClass(GetProductsByCategoryServices).singleton(),
         getProductsByCategoryController: asClass(ApiControllers.GetProductsByCategoryController).singleton(),
+        adminGetAllProductsByCategoryIdService: asClass(AdminGetAllProductsByCategoryIdService).singleton(),
+        adminGetProductsByCategoryIdController: asClass(ApiControllers.AdminGetProductsByCategoryIdController).singleton(),
         getCategoryByName:asClass(GetCategoryByName).singleton(),
         productRepository: asClass(PrismaProductRepository)
       })

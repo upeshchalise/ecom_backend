@@ -154,6 +154,27 @@ export class PrismaProductRepository implements IProductRepository {
         })
     }
 
+   async adminGetAllCategories(): Promise<Partial<Category[]>> {
+    return await this.db.category.findMany({
+        select: {
+            id: true,
+            name: true,
+            deletedAt: true,
+            createdAt: true,
+            updatedAt: true,
+            _count: {
+                select: {
+                    products: {
+                        where: {
+                            deletedAt: null
+                        }
+                    }
+                }
+            }
+        }
+    })
+   }
+
     async getProductsByCategory(categoryId: string): Promise<Partial<Product[]>> {
         return await this.db.product.findMany({
             where: {
@@ -172,6 +193,18 @@ export class PrismaProductRepository implements IProductRepository {
                 name: {
                     equals: name,
                     mode: "insensitive"
+                }
+            }
+        })
+    }
+
+    async getProductsByCategoryId(id: string): Promise<Partial<Product[]>> {
+        return await this.db.product.findMany({
+            where: {
+                categories: {
+                    some: {
+                        id
+                    }
                 }
             }
         })

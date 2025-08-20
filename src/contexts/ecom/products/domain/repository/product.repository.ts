@@ -9,6 +9,8 @@ export interface IProductRepository {
     getAllProducts({limit, page, search, categories}:ProductPaginateRequest):Promise<PaginateResponse< Partial<Product[]>>>
     getProductById(id: string): Promise<Partial<Product> | null>
     getAllCategories(): Promise<Partial<Category[]>>
+    adminGetAllCategories(): Promise<Partial<Category[]>>
     getProductsByCategory(categoryId: string): Promise<Partial<Product[]>>
     getCategoryByName(name: string): Promise<Partial<Category> | null>
+    getProductsByCategoryId(id: string): Promise<Partial<Product[]>>
 }
