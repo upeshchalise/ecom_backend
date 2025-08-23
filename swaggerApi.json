@@ -80,6 +80,70 @@
         }
       }
     },
+    "/admin/categories": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Admin Get All Categories API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/products/category/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Admin Get Products By Category ID API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Admin Get All Users API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/upload": {
       "post": {
         "tags": [

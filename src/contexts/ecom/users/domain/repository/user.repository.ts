@@ -1,4 +1,5 @@
 import { User, UserRole } from "@prisma/client";
+import { PaginateRequest, PaginateResponse } from "src/contexts/shared/domain/interface/paginate";
 
 export interface IUserRepository {
     createUser(
@@ -23,5 +24,6 @@ export interface IUserRepository {
     ): Promise<void>;
 
     getUserByEmail(email: string): Promise<Partial<User> | null>;
-    getUserById(id: string): Promise<Partial<User> | null>
+    getUserById(id: string): Promise<Partial<User> | null>;
+    adminGetAllUsers(id: string, {limit, page, search}:PaginateRequest ): Promise<PaginateResponse<Partial<User>[]>>;
 }

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import * as controller from "../controllers";
 import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAuthorizer";
 
-export const AdminRouter = (adminCreateCategoryController: controller.AdminCreateCategoryController, adminCreateProductController: controller.AdminCreateProductController,adminGetAllCategories: controller.AdminGetAllCategories,adminGetProductsByCategoryIdController: controller.AdminGetProductsByCategoryIdController,adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,userAuthorizer: IAuthorizer<Request, Response, NextFunction>, router: Router): Router => {
+export const AdminRouter = (adminCreateCategoryController: controller.AdminCreateCategoryController, adminCreateProductController: controller.AdminCreateProductController,adminGetAllCategories: controller.AdminGetAllCategories,adminGetProductsByCategoryIdController: controller.AdminGetProductsByCategoryIdController,adminGetAllUsersController: controller.AdminGetAllUsersController,adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,userAuthorizer: IAuthorizer<Request, Response, NextFunction>, router: Router): Router => {
 
     router.post("/admin/category", adminAuthorizer.authorize, adminCreateCategoryController.invoke.bind(adminCreateCategoryController)
         /*#swagger.tags = ['Admin']
@@ -47,6 +47,17 @@ router.get("/admin/products/category/:id", adminAuthorizer.authorize, adminGetPr
     /**
      * #swagger.tags = ['Admin']
      * #swagger.description = 'Admin Get Products By Category ID API',
+     * #swagger.security = [{
+          "bearerAuth": []
+      }]
+     */
+
+)
+
+router.get("/admin/users", adminAuthorizer.authorize, adminGetAllUsersController.invoke.bind(adminGetAllUsersController)
+    /**
+     * #swagger.tags = ['Admin']
+     * #swagger.description = 'Admin Get All Users API',
      * #swagger.security = [{
           "bearerAuth": []
       }]

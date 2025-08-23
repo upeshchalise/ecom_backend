@@ -25,6 +25,7 @@ export const MasterRouter = (
     getProductsByCategoryController: controllers.GetProductsByCategoryController,
     adminGetProductsByCategoryIdController: controllers.AdminGetProductsByCategoryIdController,
     paymentController: controllers.PaymentController,
+    adminGetAllUsersController: controllers.AdminGetAllUsersController,
     esewaVerifyController: controllers.EsewaVerifyController,
     adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
     userAuthorizer: IAuthorizer<Request, Response, NextFunction>
@@ -52,6 +53,7 @@ export const MasterRouter = (
         adminCreateProductController,
         adminGetAllCategories,
         adminGetProductsByCategoryIdController,
+        adminGetAllUsersController,
         adminAuthorizer,
         userAuthorizer,
         apiRouter

@@ -1,6 +1,7 @@
 export interface PaginateRequest {
     page?: number;
-    limit?: number
+    limit?: number;
+    search?: string;
 }
 
 export interface PaginateResponse<T> {
