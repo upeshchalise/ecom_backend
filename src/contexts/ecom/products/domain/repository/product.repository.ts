@@ -12,5 +12,5 @@ export interface IProductRepository {
     adminGetAllCategories(): Promise<Partial<Category[]>>
     getProductsByCategory(categoryId: string): Promise<Partial<Product[]>>
     getCategoryByName(name: string): Promise<Partial<Category> | null>
-    getProductsByCategoryId(id: string): Promise<Partial<Product[]>>
+    getProductsByCategoryId(id: string, search: string, page: number, limit: number):  Promise<PaginateResponse<Partial<Product[]>>>
 }

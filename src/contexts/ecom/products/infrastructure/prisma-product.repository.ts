@@ -198,15 +198,47 @@ export class PrismaProductRepository implements IProductRepository {
         })
     }
 
-    async getProductsByCategoryId(id: string): Promise<Partial<Product[]>> {
-        return await this.db.product.findMany({
-            where: {
-                categories: {
-                    some: {
-                        id
-                    }
+    async getProductsByCategoryId(id: string, search = "", page = 1, limit = 10): Promise<PaginateResponse<Partial<Product[]>>> {
+        const whereArgs: Prisma.ProductFindManyArgs['where'] = {
+            deletedAt: null,
+            categories: {
+                some: {
+                    id
                 }
             }
-        })
+        }
+
+        if(search) {
+            whereArgs.name = {
+                contains: search,
+                mode: "insensitive"
+            }
+        }
+        const [items, total_count] =  await this.db.$transaction([
+            this.db.product.findMany({
+                where: whereArgs,
+                skip: (page - 1) * limit,
+                take: limit,
+                orderBy: {
+                    createdAt: "desc"
+                }
+            }),
+            this.db.product.count({
+                where: whereArgs
+            })
+        ])
+
+        const total_pages = Math.ceil(total_count / limit);
+        return {
+            meta: {
+                limit,
+                total_records: total_count,
+                total_pages,
+                current_page: page,
+                is_first_page: page === 1,
+                is_last_page: page === total_pages - 1
+            },
+            data: items
+        };
     }
 }

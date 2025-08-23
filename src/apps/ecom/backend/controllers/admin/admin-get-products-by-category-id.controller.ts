@@ -17,6 +17,7 @@ export class AdminGetProductsByCategoryIdController implements Controller {
         try {
             const { id } = req.params;
             const user_id = req.user.user_id as string
+            const {search, page, pageSize} = req.query
 
             const user = await this.getUserByIdService.invoke(String(user_id))
 
@@ -24,7 +25,7 @@ export class AdminGetProductsByCategoryIdController implements Controller {
                 res.status(httpStatus.UNAUTHORIZED).send(MESSAGE_CODES.NOT_AUTHORIZED);
                 return;
             }
-            const products = await this.adminGetAllProductsByCategoryIdService.invoke(id);
+            const products = await this.adminGetAllProductsByCategoryIdService.invoke(id, search, Number(page), Number(pageSize));
             res.status(httpStatus.OK).send(products);
         } catch (error) {
             next(error);
