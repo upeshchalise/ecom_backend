@@ -1,7 +1,7 @@
 import { Category, Prisma, PrismaClient, Product } from "@prisma/client";
 import { IProductRepository } from "../domain/repository/product.repository";
 import { PaginateResponse } from "../../../../contexts/shared/domain/interface/paginate";
-import { ProductPaginateRequest } from "../domain/interface/product-paginate.interface";
+import { ProductPaginateRequest, SalesAnalytics } from "../domain/interface/product-paginate.interface";
 
 export class PrismaProductRepository implements IProductRepository {
     constructor(
@@ -240,5 +240,51 @@ export class PrismaProductRepository implements IProductRepository {
             },
             data: items
         };
+    }
+
+    async salesAnalysis(endDate: string): Promise<SalesAnalytics> {
+
+        let queryDate;
+        if(endDate) {
+            const date = new Date();
+            queryDate = new Date();
+            queryDate.setDate(date.getDate() - Number(endDate));
+            queryDate.setHours(0,0,0,0);
+        }
+        const whereArgs: Prisma.OrderFindManyArgs = {
+            where: {
+                createdAt: {
+                    gte: queryDate
+                }
+            },
+            select: {
+                totalAmount: true,
+                id: true,
+                status: true,
+            },
+            orderBy: {
+                createdAt: "desc"
+            },
+        }
+
+        if(!endDate) {
+            whereArgs.where = {}
+        }
+        const [sales, count, users] = await this.db.$transaction([
+            this.db.order.findMany(whereArgs),
+            this.db.order.count({ where: whereArgs.where }),
+            this.db.order.findMany({
+                where: {
+                    ...whereArgs.where,
+                },
+                distinct: ['userId'],
+                select: {
+                    userId: true
+                }
+            })
+        ])
+        const total_sales = sales.reduce((acc, order) => acc + Number(order.totalAmount), 0)
+
+        return { total_sales, count, users: users.length };
     }
 }

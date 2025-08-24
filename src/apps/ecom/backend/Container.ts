@@ -25,6 +25,7 @@ import { GetCategoryByName } from '../../../contexts/ecom/products/application/g
 import { AdminGetAllCategoriesService } from '../../../contexts/ecom/products/application/admin-get-all-categories.services';
 import { AdminGetAllProductsByCategoryIdService } from '../../../contexts/ecom/products/application/admin-get-all-products-by-category-id.services';
 import { AdminGetAllUsersService } from '../../../contexts/ecom/users/application/admin-get-all-users.services';
+import { AdminGetSalesAnalysisService } from '../../../contexts/ecom/products/application/admin-get-sales-analysis.services';
 
 
 export class Container {
@@ -88,6 +89,8 @@ export class Container {
         adminGetAllProductsByCategoryIdService: asClass(AdminGetAllProductsByCategoryIdService).singleton(),
         adminGetProductsByCategoryIdController: asClass(ApiControllers.AdminGetProductsByCategoryIdController).singleton(),
         getCategoryByName:asClass(GetCategoryByName).singleton(),
+        adminGetSalesAnalysisService: asClass(AdminGetSalesAnalysisService).singleton(),
+        adminGetSalesAnalyticsController: asClass(ApiControllers.AdminGetSalesAnalyticsController).singleton(),
         productRepository: asClass(PrismaProductRepository)
       })
 

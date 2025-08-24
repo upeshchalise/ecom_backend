@@ -144,6 +144,24 @@
         ]
       }
     },
+    "/admin/sales/analytics": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Admin Get Sales Analytics API",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/upload": {
       "post": {
         "tags": [
