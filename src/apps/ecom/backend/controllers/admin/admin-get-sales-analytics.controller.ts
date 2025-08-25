@@ -6,6 +6,12 @@ import { UserRole } from "@prisma/client";
 import httpStatus from "http-status";
 import { MESSAGE_CODES } from "../../../../../contexts/shared/infrastructure/utils/message-code";
 
+
+const AnalyticsTime = {
+    '7days': '7',
+    '15days': '15',
+    '30days': '30',
+}
 export class AdminGetSalesAnalyticsController implements Controller {
     constructor(private readonly adminGetSalesAnalysisService: AdminGetSalesAnalysisService,
         private readonly getUserByIdService: GetUserByIdService,
@@ -13,6 +19,16 @@ export class AdminGetSalesAnalyticsController implements Controller {
 
     public async invoke(req: any, res: Response, next: NextFunction): Promise<void> {
         try {
+
+            const { time } = req.query;
+
+            let timePeriod: string | undefined;
+
+            if (typeof time === "string" && AnalyticsTime[time as keyof typeof AnalyticsTime]) {
+                timePeriod = AnalyticsTime[time as keyof typeof AnalyticsTime];
+            } else {
+                timePeriod = '';
+            }
 
             const user_id = req.user.user_id as string
 
@@ -23,8 +39,8 @@ export class AdminGetSalesAnalyticsController implements Controller {
                 return;
             }
 
-            const { time } = req.query;
-            const salesAnalytics = await this.adminGetSalesAnalysisService.invoke(time as string);
+
+            const salesAnalytics = await this.adminGetSalesAnalysisService.invoke(timePeriod);
             res.status(httpStatus.OK).send(salesAnalytics);
         } catch (error) {
             next(error)
