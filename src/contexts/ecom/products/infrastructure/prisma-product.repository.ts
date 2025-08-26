@@ -1,7 +1,8 @@
-import { Category, Prisma, PrismaClient, Product } from "@prisma/client";
+import { Category, InteractionType, Prisma, PrismaClient, Product } from "@prisma/client";
 import { IProductRepository } from "../domain/repository/product.repository";
 import { PaginateResponse } from "../../../../contexts/shared/domain/interface/paginate";
 import { ProductPaginateRequest, SalesAnalytics } from "../domain/interface/product-paginate.interface";
+import { th } from "@faker-js/faker/.";
 
 export class PrismaProductRepository implements IProductRepository {
     constructor(
@@ -43,7 +44,7 @@ export class PrismaProductRepository implements IProductRepository {
         })
     }
 
-    async getAllProducts({ limit = 10, page = 1, search = "", categories=[] }: ProductPaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
+    async getAllProducts({ limit = 10, page = 1, search = "", categories = [] }: ProductPaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
         console.log("categories", categories)
         const whereArgs: Prisma.ProductFindManyArgs['where'] = {
             deletedAt: null,
@@ -58,7 +59,7 @@ export class PrismaProductRepository implements IProductRepository {
 
         if (
             categories && categories.length > 0
-        ) { 
+        ) {
             whereArgs.categories = {
                 some: {
                     name: {
@@ -154,26 +155,26 @@ export class PrismaProductRepository implements IProductRepository {
         })
     }
 
-   async adminGetAllCategories(): Promise<Partial<Category[]>> {
-    return await this.db.category.findMany({
-        select: {
-            id: true,
-            name: true,
-            deletedAt: true,
-            createdAt: true,
-            updatedAt: true,
-            _count: {
-                select: {
-                    products: {
-                        where: {
-                            deletedAt: null
+    async adminGetAllCategories(): Promise<Partial<Category[]>> {
+        return await this.db.category.findMany({
+            select: {
+                id: true,
+                name: true,
+                deletedAt: true,
+                createdAt: true,
+                updatedAt: true,
+                _count: {
+                    select: {
+                        products: {
+                            where: {
+                                deletedAt: null
+                            }
                         }
                     }
                 }
             }
-        }
-    })
-   }
+        })
+    }
 
     async getProductsByCategory(categoryId: string): Promise<Partial<Product[]>> {
         return await this.db.product.findMany({
@@ -208,13 +209,13 @@ export class PrismaProductRepository implements IProductRepository {
             }
         }
 
-        if(search) {
+        if (search) {
             whereArgs.name = {
                 contains: search,
                 mode: "insensitive"
             }
         }
-        const [items, total_count] =  await this.db.$transaction([
+        const [items, total_count] = await this.db.$transaction([
             this.db.product.findMany({
                 where: whereArgs,
                 skip: (page - 1) * limit,
@@ -245,11 +246,11 @@ export class PrismaProductRepository implements IProductRepository {
     async salesAnalysis(endDate: string): Promise<SalesAnalytics> {
 
         let queryDate;
-        if(endDate) {
+        if (endDate) {
             const date = new Date();
             queryDate = new Date();
             queryDate.setDate(date.getDate() - Number(endDate));
-            queryDate.setHours(0,0,0,0);
+            queryDate.setHours(0, 0, 0, 0);
         }
         const whereArgs: Prisma.OrderFindManyArgs = {
             where: {
@@ -267,7 +268,7 @@ export class PrismaProductRepository implements IProductRepository {
             },
         }
 
-        if(!endDate) {
+        if (!endDate) {
             whereArgs.where = {}
         }
         const [sales, count, users] = await this.db.$transaction([
@@ -286,5 +287,36 @@ export class PrismaProductRepository implements IProductRepository {
         const total_sales = sales.reduce((acc, order) => acc + Number(order.totalAmount), 0)
 
         return { total_sales, count, users: users.length };
+    }
+
+    async updateRecommendationTable(userId: string, categoryIds: string[], interactionType: InteractionType): Promise<void> {
+        for (const categoryId of categoryIds) {
+            const data = await this.db.userInteractedCategory.findFirst({
+                where: {
+                    userId,
+                    categoryId,
+                    interactionType
+                }
+            })
+
+            if (data) {
+                await this.db.userInteractedCategory.update({
+                    where: {
+                        id: data.id
+                    },
+                    data: {
+                        interactionCount: (data?.interactionCount || 0) + 1
+                    }
+                })
+            } else {
+                await this.db.userInteractedCategory.create({
+                    data: {
+                        userId,
+                        categoryId,
+                        interactionType,
+                    }
+                })
+            }
+        }
     }
 }

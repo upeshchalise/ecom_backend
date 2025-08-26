@@ -13,7 +13,6 @@ export class GetUserByIdController implements Controller {
         try {
             console.log("GetUserByIdController invoked", req.user.user_id as string);
             const user_id = req.user.user_id as string
-            console.log("userid",user_id);
             const isUser = await this.getUserByIdService.invoke(user_id);
 
             if (!isUser) {

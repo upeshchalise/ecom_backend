@@ -39,7 +39,6 @@ export class PaymentController implements Controller {
                     const dataToSign = `total_amount=${amount},transaction_uuid=${transactionId},product_code=${product_code}`;
                     console.log("Signed field names: 1111", dataToSign);
                     const signature = generateHmacSha256Hash(dataToSign, secret);
-console.log("Signature: 1111", signature);
                     const payload = {
                         amount,
                         tax_amount: 0,
