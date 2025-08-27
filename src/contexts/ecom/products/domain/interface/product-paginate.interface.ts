@@ -8,3 +8,7 @@ export interface SalesAnalytics {
     users: number;
     count: number
 }
+
+export interface CategoryIds {
+    categories: { id: string; }[]; 
+}

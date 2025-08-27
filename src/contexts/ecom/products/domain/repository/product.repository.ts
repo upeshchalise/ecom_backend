@@ -1,6 +1,6 @@
 import { Category, InteractionType, Product } from "@prisma/client"
 import { PaginateResponse } from "../../../../../contexts/shared/domain/interface/paginate"
-import { ProductPaginateRequest, SalesAnalytics } from "../interface/product-paginate.interface"
+import { CategoryIds, ProductPaginateRequest, SalesAnalytics } from "../interface/product-paginate.interface"
 
 export interface IProductRepository {
     createCategory(name: string): Promise<void>
@@ -15,4 +15,5 @@ export interface IProductRepository {
     getProductsByCategoryId(id: string, search: string, page: number, limit: number):  Promise<PaginateResponse<Partial<Product[]>>>
     salesAnalysis(endDate: string): Promise<SalesAnalytics>
     updateRecommendationTable(userId: string, categoryIds: string[], interactionType: InteractionType): Promise<void>
+    getCategoriesIdByProductId(productId: string):Promise<CategoryIds | null>
 }

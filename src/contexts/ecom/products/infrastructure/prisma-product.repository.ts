@@ -1,7 +1,7 @@
 import { Category, InteractionType, Prisma, PrismaClient, Product } from "@prisma/client";
 import { IProductRepository } from "../domain/repository/product.repository";
 import { PaginateResponse } from "../../../../contexts/shared/domain/interface/paginate";
-import { ProductPaginateRequest, SalesAnalytics } from "../domain/interface/product-paginate.interface";
+import { CategoryIds, ProductPaginateRequest, SalesAnalytics } from "../domain/interface/product-paginate.interface";
 import { th } from "@faker-js/faker/.";
 
 export class PrismaProductRepository implements IProductRepository {
@@ -319,4 +319,19 @@ export class PrismaProductRepository implements IProductRepository {
             }
         }
     }
+
+    async getCategoriesIdByProductId(productId: string): Promise<CategoryIds | null> {
+        return await this.db.product.findFirst({
+            where : {
+                id: productId
+            },
+            select: {
+                categories: {
+                    select: {
+                        id: true
+                    }
+                }
+            }
+        })
+     }
 }

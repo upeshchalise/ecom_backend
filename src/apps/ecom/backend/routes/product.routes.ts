@@ -1,7 +1,9 @@
-import {  Router } from "express";
+import {  Request, Response,NextFunction, Router } from "express";
 import * as controller from "../controllers";
+import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAuthorizer";
 
-export const ProductRouter = (getAllProductsController: controller.GetAllProductsController,getProductByIdController:controller.GetProductByIdController, GetAllCategoriesController: controller.GetAllCategoriesController, getProductsByCategoryController: controller.GetProductsByCategoryController,router: Router): Router => {
+
+export const ProductRouter = (getAllProductsController: controller.GetAllProductsController,getProductByIdController:controller.GetProductByIdController, GetAllCategoriesController: controller.GetAllCategoriesController, getProductsByCategoryController: controller.GetProductsByCategoryController,updateUserInteractionController: controller.UpdateUserInteractionController,userAuthorizer: IAuthorizer<Request, Response, NextFunction>,router: Router): Router => {
 
     router.get("/products", getAllProductsController.invoke.bind(getAllProductsController)
         /*
@@ -44,5 +46,15 @@ router.get("/products/category/:categoryId", getProductsByCategoryController.val
           }]
         */)
 
+
+router.post("/user/interaction", userAuthorizer.authorize, updateUserInteractionController.validate, updateUserInteractionController.invoke.bind(updateUserInteractionController)
+    /*
+  #swagger.tags = ['Products']
+  #swagger.description = 'Update user interaction',
+           #swagger.security = [{
+        "bearerAuth": []
+}]
+  */
+)
     return router
 }
