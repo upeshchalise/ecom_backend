@@ -4,7 +4,7 @@ import { CategoryIds, ProductPaginateRequest, SalesAnalytics } from "../interfac
 
 export interface IProductRepository {
     createCategory(name: string): Promise<void>
-    createProduct(name: string, description: string, price: number, image: string, userId: string, categoryIds: string[]): Promise<void>
+    createProduct(name: string, description: string, price: number, image: string,quantity: number, userId: string, categoryIds: string[]): Promise<void>
     getCategoryById(id: string): Promise<Partial<Category> | null>
     getAllProducts({limit, page, search, categories}:ProductPaginateRequest):Promise<PaginateResponse< Partial<Product[]>>>
     getProductById(id: string): Promise<Partial<Product> | null>

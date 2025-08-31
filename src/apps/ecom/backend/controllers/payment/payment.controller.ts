@@ -25,7 +25,6 @@ export class PaymentController implements Controller {
     async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             // const userId = req.params.userId;
-            console.log("PaymentController invoked");
             const { amount, paymentMethod, status, transactionId,destination, items } = req.body
             switch (paymentMethod) {
                 case 'esewa': {
@@ -37,7 +36,6 @@ export class PaymentController implements Controller {
 
                     const signed_field_names = 'total_amount,transaction_uuid,product_code';
                     const dataToSign = `total_amount=${amount},transaction_uuid=${transactionId},product_code=${product_code}`;
-                    console.log("Signed field names: 1111", dataToSign);
                     const signature = generateHmacSha256Hash(dataToSign, secret);
                     const payload = {
                         amount,
@@ -54,6 +52,7 @@ export class PaymentController implements Controller {
                     };
 
 
+                    // TODO: use transaction
                     await this.db.order.create({
                         data: {
                             userId: req?.params?.userId, // Assuming user_id is passed in headers
@@ -81,7 +80,6 @@ export class PaymentController implements Controller {
                         },
                     });
 
-console.log("Payment URL:", transactionId);
                     res.status(200).json({
                         esewaUrl: paymentUrl,
                         payload

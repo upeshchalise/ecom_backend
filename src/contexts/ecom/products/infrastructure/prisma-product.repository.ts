@@ -17,13 +17,14 @@ export class PrismaProductRepository implements IProductRepository {
         })
     }
 
-    async createProduct(name: string, description: string, price: number, image: string, userId: string, categoryIds: string[]): Promise<void> {
+    async createProduct(name: string, description: string, price: number, image: string, quantity: number,userId: string, categoryIds: string[]): Promise<void> {
         await this.db.product.create({
             data: {
                 name,
                 description,
                 price,
                 image,
+                quantity,
                 userId,
                 categories: {
                     connect: categoryIds.map((id: string) => ({ id }))
@@ -39,13 +40,12 @@ export class PrismaProductRepository implements IProductRepository {
             },
             select: {
                 id: true,
-                name: true
+                name: true,
             }
         })
     }
 
     async getAllProducts({ limit = 10, page = 1, search = "", categories = [] }: ProductPaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
-        console.log("categories", categories)
         const whereArgs: Prisma.ProductFindManyArgs['where'] = {
             deletedAt: null,
         }
@@ -117,6 +117,7 @@ export class PrismaProductRepository implements IProductRepository {
                 description: true,
                 price: true,
                 image: true,
+                quantity: true,
                 categories: {
                     select: {
                         id: true,

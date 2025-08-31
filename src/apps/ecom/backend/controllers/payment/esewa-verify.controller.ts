@@ -15,12 +15,10 @@ export class EsewaVerifyController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      console.log("EsewaVerifyController invoked");
       const { data } = req.query as { data: string };
 
       const jsonString = Buffer.from(data, 'base64').toString('utf-8');
       const paymentInfo = JSON.parse(jsonString);
-      console.log("Payment verification data:", paymentInfo);
 
       // const transactionId = paymentInfo.transaction_uuid;
       // const productCode = process.env.ESEWA_MERCHANT_ID!;
@@ -48,6 +46,7 @@ export class EsewaVerifyController implements Controller {
       const newStatus: PaymentsStatus =
         paymentInfo.status === "COMPLETE" ? PaymentsStatus.COMPLETED : PaymentsStatus.FAILED;
 
+        // TODO: use transaction
       await this.db.payments.update({
         where: { transactionId: paymentInfo.transaction_uuid },
         data: {
