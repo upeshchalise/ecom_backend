@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Controller } from "../controller";
-import { OrderStatus, PaymentsStatus, PrismaClient } from "@prisma/client";
+import { InteractionType, OrderStatus, PaymentsStatus, PrismaClient } from "@prisma/client";
 import { query } from "express-validator";
 import { RequestValidator } from "../../../../../contexts/shared/infrastructure/middleware/request-validator";
+import { UpdateUserInteractionService } from "../../../../../contexts/ecom/products/application/update-user-interaction.service";
 // import { generateHmacSha256Hash } from "../../../../../contexts/shared/infrastructure/utils/generate-hmac";
 
 export class EsewaVerifyController implements Controller {
@@ -11,7 +12,10 @@ export class EsewaVerifyController implements Controller {
     RequestValidator
   ];
 
-  constructor(private readonly db: PrismaClient) { }
+  constructor(private readonly db: PrismaClient,
+    private readonly updateUserInteractionService: UpdateUserInteractionService,
+
+  ) { }
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
@@ -45,11 +49,21 @@ export class EsewaVerifyController implements Controller {
         },
         select: {
           id: true,
+          userId: true,
           orderItems: {
             select: {
               id: true,
               productId: true,
-              quantity: true
+              quantity: true,
+              product: {
+                select: {
+                  categories: {
+                    select: {
+                      id: true,
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -60,7 +74,9 @@ export class EsewaVerifyController implements Controller {
         return;
       }
 
-      console.log("order items", orderItem);
+      const categoryIds = orderItem.orderItems.map(item => item.product.categories.map(cat => cat.id)).flat();
+      console.log("category ids", categoryIds);
+
       const newStatus: PaymentsStatus =
         paymentInfo.status === "COMPLETE" ? PaymentsStatus.COMPLETED : PaymentsStatus.FAILED;
 
@@ -92,6 +108,11 @@ export class EsewaVerifyController implements Controller {
               }
             });
           }
+          await this.updateUserInteractionService.invoke(
+            orderItem.userId,
+            categoryIds,
+            InteractionType.PURCHASE
+          )
         });
 
       } else if (newStatus === PaymentsStatus.FAILED) {
