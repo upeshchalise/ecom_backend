@@ -25,7 +25,22 @@ export class PaymentController implements Controller {
     async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             // const userId = req.params.userId;
-            const { amount, paymentMethod, status, transactionId,destination, items } = req.body
+            const { amount, paymentMethod, status, transactionId, destination, items } = req.body
+
+            for (let item of items) {
+                const itemId = item.id;
+                const quantity = item.quantity;
+                console.log(itemId, quantity)
+                const enoughItems = await this.db.product.findFirst({
+                    where: {
+                        id: itemId,
+                    }
+                })
+                if (!enoughItems || enoughItems?.quantity! < quantity) {
+                    res.status(400).json({ message: `Not enough stock for item "${enoughItems?.name}"` });
+                    return
+                }
+            }
             switch (paymentMethod) {
                 case 'esewa': {
                     const product_code = process.env.ESEWA_MERCHANT_ID!;
@@ -51,8 +66,6 @@ export class PaymentController implements Controller {
                         signature,
                     };
 
-
-                    // TODO: use transaction
                     await this.db.order.create({
                         data: {
                             userId: req?.params?.userId, // Assuming user_id is passed in headers
