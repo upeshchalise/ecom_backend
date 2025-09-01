@@ -16,4 +16,5 @@ export interface IProductRepository {
     salesAnalysis(endDate: string): Promise<SalesAnalytics>
     updateRecommendationTable(userId: string, categoryIds: string[], interactionType: InteractionType): Promise<void>
     getCategoriesIdByProductId(productId: string):Promise<CategoryIds | null>
+    getRecommendedProducts(userId: string): Promise<Partial<Product[]>>
 }

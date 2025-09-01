@@ -350,6 +350,24 @@
         ]
       }
     },
+    "/user/recommended-products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Update user interaction",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/user": {
       "post": {
         "tags": [

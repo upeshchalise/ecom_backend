@@ -27,7 +27,6 @@ export class UpdateUserInteractionController implements Controller {
         try {
             const user_id = req.user.user_id as string;
             const {productIds, interactionType} = req.body;
-            console.log("productIds", productIds, interactionType)
             if (!user_id) {
                 res.status(200).send();
                 return;

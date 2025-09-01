@@ -2,7 +2,6 @@ import { Category, InteractionType, Prisma, PrismaClient, Product } from "@prism
 import { IProductRepository } from "../domain/repository/product.repository";
 import { PaginateResponse } from "../../../../contexts/shared/domain/interface/paginate";
 import { CategoryIds, ProductPaginateRequest, SalesAnalytics } from "../domain/interface/product-paginate.interface";
-import { th } from "@faker-js/faker/.";
 
 export class PrismaProductRepository implements IProductRepository {
     constructor(
@@ -335,4 +334,64 @@ export class PrismaProductRepository implements IProductRepository {
             }
         })
      }
+
+    // async getRecommendedProducts(userId: string): Promise<Partial<Product[]>> {
+    async getRecommendedProducts(userId: string): Promise<any> {
+        const userInteractedCategories = await this.db.userInteractedCategory.findMany({
+            where: {
+                userId
+            },
+            select: {
+                categoryId: true,
+                interactionType: true,
+                interactionCount: true
+            }
+        })
+
+        const categories = userInteractedCategories.map(i => i.categoryId);
+        console.log("categories ", categories)
+
+        const otherUsersWithCategories = await this.db.userInteractedCategory.findMany({
+            where: {
+                categoryId: {
+                    in: categories
+                },
+            NOT: {
+                userId
+            }
+            }
+        })
+        console.log("userid", userId, "other users ", otherUsersWithCategories)
+
+        const otherUsersCategories = await this.db.userInteractedCategory.findMany({
+            where: {
+                userId: {
+                    in: otherUsersWithCategories.map(i => i.userId)
+                },
+                categoryId: {
+                    notIn: categories
+                }
+            }
+        })
+        console.log("other users categories", otherUsersCategories)
+        const recommendedCategories = otherUsersCategories.map(i => i.categoryId)
+        const recommendedProducts = await this.db.product.findMany({
+            where: {
+                categories: {
+                    some: {
+                        id: {
+                            in: recommendedCategories
+                        }
+                    }
+                }
+            },
+           omit: {
+            createdAt: true,
+            updatedAt: true,
+            deletedAt: true,
+           }
+        })
+        console.log("recommended products", recommendedProducts)
+        return recommendedProducts
+    }
 }
