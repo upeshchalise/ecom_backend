@@ -337,6 +337,14 @@ export class PrismaProductRepository implements IProductRepository {
 
     // async getRecommendedProducts(userId: string): Promise<Partial<Product[]>> {
     async getRecommendedProducts(userId: string): Promise<any> {
+
+        // weight for each actions of the user
+        const weights: Record<InteractionType, number> = {
+            [InteractionType.VIEW]: 1,
+            [InteractionType.CART]: 3,
+            [InteractionType.PURCHASE]: 5
+        }
+
         const userInteractedCategories = await this.db.userInteractedCategory.findMany({
             where: {
                 userId
@@ -348,50 +356,52 @@ export class PrismaProductRepository implements IProductRepository {
             }
         })
 
-        const categories = userInteractedCategories.map(i => i.categoryId);
-        console.log("categories ", categories)
+        // const categories = userInteractedCategories.map(i => i.categoryId);
 
-        const otherUsersWithCategories = await this.db.userInteractedCategory.findMany({
-            where: {
-                categoryId: {
-                    in: categories
-                },
-            NOT: {
-                userId
-            }
-            }
-        })
-        console.log("userid", userId, "other users ", otherUsersWithCategories)
+        // const otherUsersWithCategories = await this.db.userInteractedCategory.findMany({
+        //     where: {
+        //         categoryId: {
+        //             in: categories
+        //         },
+        //     NOT: {
+        //         userId
+        //     }
+        //     }
+        // })
 
-        const otherUsersCategories = await this.db.userInteractedCategory.findMany({
-            where: {
-                userId: {
-                    in: otherUsersWithCategories.map(i => i.userId)
-                },
-                categoryId: {
-                    notIn: categories
-                }
-            }
-        })
-        console.log("other users categories", otherUsersCategories)
-        const recommendedCategories = otherUsersCategories.map(i => i.categoryId)
-        const recommendedProducts = await this.db.product.findMany({
-            where: {
-                categories: {
-                    some: {
-                        id: {
-                            in: recommendedCategories
-                        }
-                    }
-                }
-            },
-           omit: {
-            createdAt: true,
-            updatedAt: true,
-            deletedAt: true,
-           }
-        })
-        console.log("recommended products", recommendedProducts)
-        return recommendedProducts
+        // const otherUsersCategories = await this.db.userInteractedCategory.findMany({
+        //     where: {
+        //         userId: {
+        //             in: otherUsersWithCategories.map(i => i.userId)
+        //         },
+        //         categoryId: {
+        //             notIn: categories
+        //         }
+        //     }
+        // })
+        // const recommendedCategories = otherUsersCategories.map(i => i.categoryId)
+        // const recommendedProducts = await this.db.product.findMany({
+        //     where: {
+        //         categories: {
+        //             some: {
+        //                 id: {
+        //                     in: recommendedCategories
+        //                 }
+        //             }
+        //         }
+        //     },
+        //    omit: {
+        //     createdAt: true,
+        //     updatedAt: true,
+        //     deletedAt: true,
+        //    }
+        // })
+        // return recommendedProducts
+
+        const userVector = new Map<string, number>()
+        for(const {categoryId, interactionType, interactionCount} of userInteractedCategories) {
+            const weight = weights[interactionType] ?? 1
+            userVector.set(categoryId, (userVector.get(categoryId) || 0 + interactionCount * weight))
+        }
     }
 }
