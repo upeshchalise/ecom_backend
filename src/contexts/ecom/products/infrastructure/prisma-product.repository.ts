@@ -23,7 +23,7 @@ export class PrismaProductRepository implements IProductRepository {
                 description,
                 price,
                 image,
-                quantity,
+                quantity: Number(quantity),
                 userId,
                 categories: {
                     connect: categoryIds.map((id: string) => ({ id }))
