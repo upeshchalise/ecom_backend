@@ -12,3 +12,12 @@ export interface SalesAnalytics {
 export interface CategoryIds {
     categories: { id: string; }[]; 
 }
+
+export interface UpdateProductData {
+    name?: string;
+    description?: string;
+    price?: number;
+    image?: string;
+    quantity?: number;
+    categories?: string[];
+}

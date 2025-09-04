@@ -29,6 +29,8 @@ import { AdminGetSalesAnalysisService } from '../../../contexts/ecom/products/ap
 import { UpdateUserInteractionService } from '../../../contexts/ecom/products/application/update-user-interaction.service';
 import { GetCategoriesIdByProductIdServices } from '../../../contexts/ecom/products/application/get-category-ids-by-product-id.services';
 import { GetRecommendedProductServices } from '../../../contexts/ecom/products/application/get-recommended-product.services';
+import { DeleteProductService } from '../../../contexts/ecom/products/application/delete-product.services';
+import { UpdateProductService } from '../../../contexts/ecom/products/application/update-product.services';
 
 
 export class Container {
@@ -99,6 +101,10 @@ export class Container {
         getCategoriesIdByProductIdServices: asClass(GetCategoriesIdByProductIdServices).singleton(),
         getRecommendedProductServices: asClass(GetRecommendedProductServices).singleton(),
         getRecommendedProductController: asClass(ApiControllers.GetRecommendedProductController).singleton(),
+        deleteProductService: asClass(DeleteProductService).singleton(),
+        updateProductService: asClass(UpdateProductService).singleton(),
+        updateProductController: asClass(ApiControllers.UpdateProductController).singleton(),
+        deleteProductController: asClass(ApiControllers.DeleteProductController).singleton(),
         productRepository: asClass(PrismaProductRepository)
       })
 

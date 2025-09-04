@@ -3,7 +3,10 @@ import * as controller from "../controllers";
 import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAuthorizer";
 
 
-export const ProductRouter = (getAllProductsController: controller.GetAllProductsController, getProductByIdController: controller.GetProductByIdController, GetAllCategoriesController: controller.GetAllCategoriesController, getProductsByCategoryController: controller.GetProductsByCategoryController, updateUserInteractionController: controller.UpdateUserInteractionController, getRecommendedProductController: controller.GetRecommendedProductController, userAuthorizer: IAuthorizer<Request, Response, NextFunction>, router: Router): Router => {
+export const ProductRouter = (getAllProductsController: controller.GetAllProductsController, getProductByIdController: controller.GetProductByIdController, GetAllCategoriesController: controller.GetAllCategoriesController, getProductsByCategoryController: controller.GetProductsByCategoryController, updateUserInteractionController: controller.UpdateUserInteractionController, getRecommendedProductController: controller.GetRecommendedProductController,
+  deleteProductController: controller.DeleteProductController,
+  updateProductController: controller.UpdateProductController,
+  userAuthorizer: IAuthorizer<Request, Response, NextFunction>, router: Router): Router => {
 
   router.get("/products", getAllProductsController.invoke.bind(getAllProductsController)
     /*
@@ -66,5 +69,26 @@ export const ProductRouter = (getAllProductsController: controller.GetAllProduct
 }]
   */
   )
+
+  router.delete("/product/delete/:productId", userAuthorizer.authorize, deleteProductController.invoke.bind(deleteProductController)
+  /*
+  #swagger.tags = ['Products']
+  #swagger.description = 'Delete Product By Id',
+           #swagger.security = [{
+        "bearerAuth": []
+}]
+  */
+)
+
+router.put("/product/update/:productId", userAuthorizer.authorize, updateProductController.validate, updateProductController.invoke.bind(updateProductController)
+  /*
+  #swagger.tags = ['Products']
+  #swagger.description = 'Update Product By Id',
+           #swagger.security = [{
+        "bearerAuth": []
+}]
+  */
+)
+
   return router
 }

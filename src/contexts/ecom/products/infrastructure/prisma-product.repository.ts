@@ -1,7 +1,7 @@
 import { Category, InteractionType, Prisma, PrismaClient, Product } from "@prisma/client";
 import { IProductRepository } from "../domain/repository/product.repository";
 import { PaginateResponse } from "../../../../contexts/shared/domain/interface/paginate";
-import { CategoryIds, ProductPaginateRequest, SalesAnalytics } from "../domain/interface/product-paginate.interface";
+import { CategoryIds, ProductPaginateRequest, SalesAnalytics, UpdateProductData } from "../domain/interface/product-paginate.interface";
 
 export class PrismaProductRepository implements IProductRepository {
     constructor(
@@ -106,6 +106,7 @@ export class PrismaProductRepository implements IProductRepository {
     }
 
     async getProductById(id: string): Promise<Partial<Product> | null> {
+        console.log("Fetching product with ID:", id);
         return await this.db.product.findFirst({
             where: {
                 id
@@ -118,6 +119,8 @@ export class PrismaProductRepository implements IProductRepository {
                 userId: true,
                 image: true,
                 quantity: true,
+                deletedAt: true,
+                createdAt: true,
                 categories: {
                     select: {
                         id: true,
@@ -378,6 +381,10 @@ export class PrismaProductRepository implements IProductRepository {
         const recommendedCategories = otherUsersCategories.map(i => i.categoryId)
         const recommendedProducts = await this.db.product.findMany({
             where: {
+                deletedAt: null,
+                quantity: {
+                    gt: 0
+                },
                 categories: {
                     some: {
                         id: {
@@ -395,4 +402,31 @@ export class PrismaProductRepository implements IProductRepository {
         console.log("recommended products", recommendedProducts)
         return recommendedProducts
     }
+
+   async updateProduct(productId: string, updateData: UpdateProductData): Promise<void> {
+       await this.db.product.update({
+           where: { id: productId },
+           data: {
+               name: updateData.name,
+               description: updateData.description,
+               price: updateData.price,
+               image: updateData.image,
+               quantity: Number(updateData.quantity),
+              categories: {
+                set: updateData?.categories?.map(categoryId => ({ id: categoryId }))
+            }
+           }
+       });
+   }
+
+   async deleteProduct(productId: string): Promise<void> {
+    await this.db.product.update({
+        where: {
+            id: productId
+        },
+        data: {
+            deletedAt: new Date()
+        }
+    })
+   }
 }

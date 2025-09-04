@@ -17,4 +17,6 @@ export interface IProductRepository {
     updateRecommendationTable(userId: string, categoryIds: string[], interactionType: InteractionType): Promise<void>
     getCategoriesIdByProductId(productId: string):Promise<CategoryIds | null>
     getRecommendedProducts(userId: string): Promise<Partial<Product[]>>
+    updateProduct(productId: string, updateData: any): Promise<void>
+    deleteProduct(productId: string): Promise<void>
 }

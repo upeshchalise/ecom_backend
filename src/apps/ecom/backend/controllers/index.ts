@@ -18,3 +18,5 @@ export * from './admin/admin-get-all-users.controller'
 export * from  './admin/admin-get-sales-analytics.controller'
 export * from "./products/update-user-interaction.controller"
 export * from "./products/get-recommended-product.controller"
+export * from "./products/update-product.controller"
+export * from "./products/delete-product.controller"

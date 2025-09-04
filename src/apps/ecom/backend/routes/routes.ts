@@ -30,6 +30,8 @@ export const MasterRouter = (
     adminGetSalesAnalyticsController: controllers.AdminGetSalesAnalyticsController,
     updateUserInteractionController: controllers.UpdateUserInteractionController,
     getRecommendedProductController: controllers.GetRecommendedProductController,
+    deleteProductController: controllers.DeleteProductController,
+    updateProductController: controllers.UpdateProductController,
     adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
     userAuthorizer: IAuthorizer<Request, Response, NextFunction>
 
@@ -69,6 +71,8 @@ export const MasterRouter = (
         getProductsByCategoryController,
         updateUserInteractionController,
         getRecommendedProductController,
+        deleteProductController,
+        updateProductController,
         userAuthorizer,
         apiRouter
     )
