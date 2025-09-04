@@ -31,6 +31,7 @@ import { GetCategoriesIdByProductIdServices } from '../../../contexts/ecom/produ
 import { GetRecommendedProductServices } from '../../../contexts/ecom/products/application/get-recommended-product.services';
 import { DeleteProductService } from '../../../contexts/ecom/products/application/delete-product.services';
 import { UpdateProductService } from '../../../contexts/ecom/products/application/update-product.services';
+import { GetProductByUserIdServices } from '../../../contexts/ecom/products/application/get-product-by-user-id.services';
 
 
 export class Container {
@@ -105,6 +106,8 @@ export class Container {
         updateProductService: asClass(UpdateProductService).singleton(),
         updateProductController: asClass(ApiControllers.UpdateProductController).singleton(),
         deleteProductController: asClass(ApiControllers.DeleteProductController).singleton(),
+        getProductByUserIdServices: asClass(GetProductByUserIdServices).singleton(),
+        getProductsByUserIdController: asClass(ApiControllers.GetProductsByUserIdController).singleton(),
         productRepository: asClass(PrismaProductRepository)
       })
 

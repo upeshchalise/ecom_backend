@@ -6,6 +6,7 @@ import { IAuthorizer } from "../../../../contexts/shared/domain/interface/IAutho
 export const ProductRouter = (getAllProductsController: controller.GetAllProductsController, getProductByIdController: controller.GetProductByIdController, GetAllCategoriesController: controller.GetAllCategoriesController, getProductsByCategoryController: controller.GetProductsByCategoryController, updateUserInteractionController: controller.UpdateUserInteractionController, getRecommendedProductController: controller.GetRecommendedProductController,
   deleteProductController: controller.DeleteProductController,
   updateProductController: controller.UpdateProductController,
+  getProductsByUserIdController: controller.GetProductsByUserIdController,
   userAuthorizer: IAuthorizer<Request, Response, NextFunction>, router: Router): Router => {
 
   router.get("/products", getAllProductsController.invoke.bind(getAllProductsController)
@@ -71,24 +72,33 @@ export const ProductRouter = (getAllProductsController: controller.GetAllProduct
   )
 
   router.delete("/product/delete/:productId", userAuthorizer.authorize, deleteProductController.invoke.bind(deleteProductController)
-  /*
-  #swagger.tags = ['Products']
-  #swagger.description = 'Delete Product By Id',
-           #swagger.security = [{
-        "bearerAuth": []
-}]
-  */
-)
+    /*
+    #swagger.tags = ['Products']
+    #swagger.description = 'Delete Product By Id',
+             #swagger.security = [{
+          "bearerAuth": []
+  }]
+    */
+  )
 
-router.put("/product/update/:productId", userAuthorizer.authorize, updateProductController.validate, updateProductController.invoke.bind(updateProductController)
-  /*
-  #swagger.tags = ['Products']
-  #swagger.description = 'Update Product By Id',
-           #swagger.security = [{
-        "bearerAuth": []
-}]
-  */
-)
+  router.put("/product/update/:productId", userAuthorizer.authorize, updateProductController.validate, updateProductController.invoke.bind(updateProductController)
+    /*
+    #swagger.tags = ['Products']
+    #swagger.description = 'Update Product By Id',
+             #swagger.security = [{
+          "bearerAuth": []
+  }]
+    */
+  )
 
+  router.get("/products/user/my-products", userAuthorizer.authorize, getProductsByUserIdController.invoke.bind(getProductsByUserIdController)
+    /*
+    #swagger.tags = ['Products']
+    #swagger.description = 'Get Products By User Id',
+             #swagger.security = [{
+          "bearerAuth": []
+  }]
+    */
+  )
   return router
 }

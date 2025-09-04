@@ -1,6 +1,6 @@
 import { Category, InteractionType, Prisma, PrismaClient, Product } from "@prisma/client";
 import { IProductRepository } from "../domain/repository/product.repository";
-import { PaginateResponse } from "../../../../contexts/shared/domain/interface/paginate";
+import { PaginateRequest, PaginateResponse } from "../../../../contexts/shared/domain/interface/paginate";
 import { CategoryIds, ProductPaginateRequest, SalesAnalytics, UpdateProductData } from "../domain/interface/product-paginate.interface";
 
 export class PrismaProductRepository implements IProductRepository {
@@ -429,4 +429,48 @@ export class PrismaProductRepository implements IProductRepository {
         }
     })
    }
+
+     async getProductsByUserId(userId: string, {search = "", page=1, limit=10}: PaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
+
+        const whereArgs: Prisma.ProductFindManyArgs['where'] = {
+            deletedAt: null,
+            userId
+        }
+
+        if(search) {
+            whereArgs.name = {
+                contains: search,
+                mode: "insensitive"
+            }
+        }
+
+        const [items, total_count] = await this.db.$transaction([
+            this.db.product.findMany({
+                where: whereArgs,
+                skip: (page - 1) * limit,
+                take: limit,
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            }),
+            this.db.product.count({
+                where: whereArgs
+            })
+        ])
+
+        const total_pages = Math.ceil(total_count / limit);
+
+        return {
+            meta: {
+                limit,
+                total_records: total_count,
+                total_pages,
+                current_page: page,
+                is_first_page: page === 1,
+                is_last_page: page === total_count - 1
+            },
+            data: items
+        }
+    
+     }
 }
