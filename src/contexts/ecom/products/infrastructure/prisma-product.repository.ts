@@ -340,7 +340,9 @@ export class PrismaProductRepository implements IProductRepository {
      }
 
     // async getRecommendedProducts(userId: string): Promise<Partial<Product[]>> {
-    async getRecommendedProducts(userId: string): Promise<any> {
+    async getRecommendedProducts(userId: string,  {limit=10, page=1, search="", categories=[]} : ProductPaginateRequest): Promise<PaginateResponse<Partial<Product[]>>> {
+
+
         const userInteractedCategories = await this.db.userInteractedCategory.findMany({
             where: {
                 userId
@@ -352,20 +354,18 @@ export class PrismaProductRepository implements IProductRepository {
             }
         })
 
-        const categories = userInteractedCategories.map(i => i.categoryId);
-        console.log("categories ", categories)
+        const cateogoryList = userInteractedCategories.map(i => i.categoryId);
 
         const otherUsersWithCategories = await this.db.userInteractedCategory.findMany({
             where: {
                 categoryId: {
-                    in: categories
+                    in: cateogoryList
                 },
             NOT: {
                 userId
             }
             }
         })
-        console.log("userid", userId, "other users ", otherUsersWithCategories)
 
         const otherUsersCategories = await this.db.userInteractedCategory.findMany({
             where: {
@@ -373,34 +373,76 @@ export class PrismaProductRepository implements IProductRepository {
                     in: otherUsersWithCategories.map(i => i.userId)
                 },
                 categoryId: {
-                    notIn: categories
+                    notIn: cateogoryList
                 }
             }
         })
-        console.log("other users categories", otherUsersCategories)
         const recommendedCategories = otherUsersCategories.map(i => i.categoryId)
-        const recommendedProducts = await this.db.product.findMany({
-            where: {
-                deletedAt: null,
-                quantity: {
-                    gt: 0
-                },
-                categories: {
-                    some: {
-                        id: {
-                            in: recommendedCategories
-                        }
+
+        const whereArgs: Prisma.ProductFindManyArgs['where'] = {
+            deletedAt: null,
+            quantity: {
+                gt: 0
+            }
+        }
+
+        if (search) {
+            whereArgs.name = {
+                contains: search,
+                mode: "insensitive"
+            }
+        }
+        
+        if (
+            categories && categories.length > 0
+        ) {
+            whereArgs.categories = {
+                some: {
+                    name: {
+                        in: recommendedCategories
                     }
                 }
+            }
+        }
+
+        // const recommendedProducts = await this.db.product.findMany({
+        //     where: whereArgs,
+        //    omit: {
+        //     createdAt: true,
+        //     updatedAt: true,
+        //     deletedAt: true,
+        //    }
+        // })
+
+        const [items, total_count] = await this.db.$transaction([
+            this.db.product.findMany({
+            where: whereArgs,
+            skip: (Number(page) - 1) * Number(limit),
+                take: Number(limit),
+        //    omit: {
+        //     createdAt: true,
+        //     updatedAt: true,
+        //     deletedAt: true,
+        //    }
+        }),
+            this.db.product.count({
+                where: whereArgs
+            })
+        ])
+
+          const total_pages = Math.ceil(total_count / Number(limit));
+
+        return {
+            meta: {
+                limit,
+                total_records: total_count,
+                total_pages,
+                current_page: page,
+                is_first_page: page === 1,
+                is_last_page: page === total_pages - 1
             },
-           omit: {
-            createdAt: true,
-            updatedAt: true,
-            deletedAt: true,
-           }
-        })
-        console.log("recommended products", recommendedProducts)
-        return recommendedProducts
+            data: items
+        };
     }
 
    async updateProduct(productId: string, updateData: UpdateProductData): Promise<void> {
