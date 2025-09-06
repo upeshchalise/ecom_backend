@@ -381,6 +381,9 @@ export class PrismaProductRepository implements IProductRepository {
 
         const whereArgs: Prisma.ProductFindManyArgs['where'] = {
             deletedAt: null,
+            userId: {
+                not: userId
+            },
             quantity: {
                 gt: 0
             }
